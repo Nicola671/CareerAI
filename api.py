@@ -65,8 +65,10 @@ class AppState:
         self.api_key: str = ""
         self.model: str = "llama-3.3-70b-versatile"
         self.api_configured: bool = False
-        self.embedding_model: str = "bge-m3"
-        self.enable_reranking: bool = True
+        # Embedding model: configurable via env var for production (e.g. "gte-multilingual")
+        self.embedding_model: str = os.environ.get("EMBEDDING_MODEL", "bge-m3")
+        # Reranking: disable in production to save RAM (set ENABLE_RERANKING=false)
+        self.enable_reranking: bool = os.environ.get("ENABLE_RERANKING", "true").lower() in ("true", "1", "yes")
         self.enable_hybrid: bool = True
 
     def get_rag(self) -> RAGEngine:
