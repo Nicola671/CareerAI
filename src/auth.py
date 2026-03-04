@@ -16,19 +16,27 @@ import os
 # Memory dictionary to mock sent emails for recovery 
 reset_codes = {}
 
-# REAL EMAIL CONFIGURATION (reads from .env)
-conf_mail = ConnectionConfig(
-    MAIL_USERNAME=os.environ.get("MAIL_USERNAME", ""),
-    MAIL_PASSWORD=os.environ.get("MAIL_PASSWORD", ""),
-    MAIL_FROM=os.environ.get("MAIL_FROM", ""),
-    MAIL_PORT=587,
-    MAIL_SERVER="smtp.gmail.com",
-    MAIL_STARTTLS=True,
-    MAIL_SSL_TLS=False,
-    USE_CREDENTIALS=True,
-    VALIDATE_CERTS=True
-)
-fast_mail = FastMail(conf_mail)
+# REAL EMAIL CONFIGURATION (reads from .env) — only if configured
+_mail_from = os.environ.get("MAIL_FROM", "")
+_mail_user = os.environ.get("MAIL_USERNAME", "")
+_mail_pass = os.environ.get("MAIL_PASSWORD", "")
+
+if _mail_from and "@" in _mail_from and _mail_user and _mail_pass:
+    conf_mail = ConnectionConfig(
+        MAIL_USERNAME=_mail_user,
+        MAIL_PASSWORD=_mail_pass,
+        MAIL_FROM=_mail_from,
+        MAIL_PORT=587,
+        MAIL_SERVER="smtp.gmail.com",
+        MAIL_STARTTLS=True,
+        MAIL_SSL_TLS=False,
+        USE_CREDENTIALS=True,
+        VALIDATE_CERTS=True
+    )
+    fast_mail = FastMail(conf_mail)
+else:
+    conf_mail = None
+    fast_mail = None
 
 # JWT configuration (reads from .env)
 SECRET_KEY = os.environ.get("SECRET_KEY", "fallback_dev_key_change_this")
@@ -167,7 +175,7 @@ async def forgot_password(body: ForgotPasswordBody, db: Session = Depends(get_db
     reset_codes[body.email] = code
     
     # Send actual email if configured, otherwise print to terminal
-    if conf_mail.MAIL_USERNAME != "tu_correo@gmail.com":
+    if fast_mail is not None:
         message = MessageSchema(
             subject="Recuperación de Contraseña - CareerAI",
             recipients=[body.email],
@@ -181,7 +189,7 @@ async def forgot_password(body: ForgotPasswordBody, db: Session = Depends(get_db
             print(f"❌ Error enviando el correo real: {str(e)}")
     else:
         print("\n" + "="*50)
-        print("📧 SIMULACIÓN (Debes configurar tu SMTP de Gmail en auth.py):")
+        print("📧 SIMULACIÓN (Email no configurado en producción):")
         print(f"Para: {body.email}")
         print("Asunto: Recuperación de tu contraseña")
         print(f"Tu código de recuperación temporal es: {code}")
