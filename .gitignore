@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environment
+venv/
+.venv/
+ENV/
+
+# Data (generated at runtime)
+data/uploads/
+data/vectordb/
+careerai.db
+
+# Environment secrets (NEVER commit!)
+.env
+.env.*
+
+# Streamlit secrets (contains API keys!)
+.streamlit/secrets.toml
+
+# Legacy Streamlit app (replaced by FastAPI + frontend/)
+app.py
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Test outputs
+test_output.txt
+test_results*.txt
+_size.tmp
+
+# Distribution
+*.egg-info/
+dist/
+build/

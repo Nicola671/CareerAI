@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerAI — Tu Asistente Inteligente de Carrera</title>
+    <meta name="description"
+        content="Analiza tu carrera con inteligencia artificial. Sube tu CV, ofertas o perfil de LinkedIn y conversa con un asistente AI entrenado sobre tu trayectoria profesional.">
+    <link rel="icon" type="image/png" href="/static/favicon.png">
+    <link rel="apple-touch-icon" href="/static/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Styrene+A:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css?v=2">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-inner">
+            <!-- Top actions -->
+            <div class="sidebar-top">
+                <button class="sidebar-icon-btn" id="toggleSidebar" title="Cerrar sidebar">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                        <line x1="9" y1="3" x2="9" y2="21" />
+                    </svg>
+                </button>
+                <button class="sidebar-icon-btn" id="newChatBtn" title="Nueva conversación">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 20h9" />
+                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Search -->
+            <div class="sidebar-search">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <input type="text" placeholder="Buscar conversaciones..." id="searchInput">
+            </div>
+
+            <!-- Nav items -->
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-page="chat">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                    </svg>
+                    <span>Chat</span>
+                </a>
+                <a href="#" class="nav-item" data-page="documents">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                    </svg>
+                    <span>Documentos</span>
+                </a>
+                <a href="#" class="nav-item" data-page="dashboard">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="20" x2="18" y2="10" />
+                        <line x1="12" y1="20" x2="12" y2="4" />
+                        <line x1="6" y1="20" x2="6" y2="14" />
+                    </svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-page="settings" style="display:none;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3" />
+                        <path
+                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                    </svg>
+                    <span>Configuración</span>
+                </a>
+                <a href="#" class="nav-item" id="jobsNavBtn" onclick="event.preventDefault(); openJobsPanel()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                    </svg>
+                    <span>Empleos</span>
+                </a>
+            </nav>
+
+            <!-- Recent conversations -->
+            <div class="sidebar-section">
+                <div class="sidebar-section-label">Recientes</div>
+                <div class="conversation-list" id="conversationList">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Documents section -->
+            <div class="sidebar-section">
+                <div class="sidebar-section-label">📄 Documentos cargados</div>
+                <div class="document-list" id="documentList">
+                    <div class="empty-docs">
+                        <span class="empty-docs-icon">📭</span>
+                        <span>Sin documentos aún</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="sidebar-footer">
+                <div class="sidebar-plan">
+                    <span>Plan Gratuito</span>
+                    <span class="plan-separator">·</span>
+                    <a href="#" class="plan-upgrade">Actualizar</a>
+                </div>
+                <div class="sidebar-user" id="userMenu">
+                    <div class="user-avatar">MY</div>
+                    <span class="user-name">Mi Cuenta</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Mobile sidebar toggle -->
+    <button class="mobile-sidebar-toggle" id="mobileSidebarToggle" aria-label="Abrir menú">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" />
+            <line x1="9" y1="3" x2="9" y2="21" />
+        </svg>
+    </button>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="main-content" id="mainContent">
+        <!-- Notification bar -->
+        <div class="notification-bar" id="notificationBar">
+            <span>Plan gratuito</span>
+            <span class="notification-separator">·</span>
+            <a href="#" class="notification-link">Actualizar</a>
+        </div>
+
+        <!-- ===== WELCOME SCREEN ===== -->
+        <div class="welcome-screen" id="welcomeScreen">
+            <!-- Logo -->
+            <div class="welcome-logo"
+                style="display:flex; align-items:center; justify-content:center; gap: 14px; margin-bottom:12px;">
+                <svg width="56" height="56" viewBox="0 0 40 40" fill="none">
+                    <!-- Brain -->
+                    <path
+                        d="M 21 30 C 21 30 20 31 16 31 C 11 31 10 27 10 24 C 10 22 11 20 13 18 C 11 15 13 11 17 11 C 19 11 20 12 21 14"
+                        stroke="var(--accent-secondary)" stroke-width="2.5" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <path
+                        d="M 21 14 C 22 12 23 11 25 11 C 29 11 31 15 29 18 C 31 20 32 22 32 24 C 32 27 31 31 26 31 C 22 31 21 30 21 30 V 14 Z"
+                        stroke="var(--accent-secondary)" stroke-width="2.5" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <path d="M 14 24 H 17 M 15 20 H 18 M 28 24 H 25 M 27 20 H 24 M 21 18 V 26"
+                        stroke="var(--accent-secondary)" stroke-width="2.5" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <!-- Green arrow -->
+                    <path d="M 10 24 L 25 9" stroke="var(--accent-primary)" stroke-width="3" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <polyline points="17 9 25 9 25 17" stroke="var(--accent-primary)" stroke-width="3"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <div
+                    style="font-size:3.5rem; font-weight:600; letter-spacing:-0.03em; color:var(--text-primary); line-height:1;">
+                    Career<span style="color:var(--text-primary);">a</span><span
+                        style="color:var(--accent-primary);">i</span>
+                </div>
+            </div>
+
+            <!-- Welcome heading -->
+            <h1 class="welcome-heading"
+                style="font-size:1.4rem; color:var(--text-secondary); margin-bottom:36px; font-weight:400; font-family:var(--font-family);">
+                Tu asistente inteligente de carrera</h1>
+
+            <!-- Input box -->
+            <div class="welcome-input-container">
+                <div class="welcome-input-wrapper">
+                    <textarea class="welcome-input" id="welcomeInput" placeholder="¿Cómo puedo ayudarte hoy?"
+                        rows="1"></textarea>
+                    <div class="welcome-input-actions">
+                        <button class="input-action-btn" id="attachBtn" title="Adjuntar archivo">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg>
+                        </button>
+                        <div class="input-right-actions">
+                            <div class="model-selector" id="modelSelector">
+                                <span class="model-name">CareerAI Pro</span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="6 9 12 15 18 9" />
+                                </svg>
+                            </div>
+                            <button class="send-btn" id="sendBtn" title="Enviar" disabled>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="22" y1="2" x2="11" y2="13" />
+                                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Suggestion chips -->
+            <div class="suggestion-chips">
+                <button class="chip" data-query="Analiza mi CV y dame un resumen profesional">
+                    <span class="chip-icon">&lt;/&gt;</span>
+                    <span>Analizar CV</span>
+                </button>
+                <button class="chip" data-query="Genera una carta de presentación para la oferta subida">
+                    <span class="chip-icon">✉️</span>
+                    <span>Cover Letter</span>
+                </button>
+                <button class="chip" data-query="¿Qué skills me faltan para crecer profesionalmente?">
+                    <span class="chip-icon">📈</span>
+                    <span>Skills Gap</span>
+                </button>
+                <button class="chip" data-query="Simula una entrevista técnica para mi perfil">
+                    <span class="chip-icon">🎤</span>
+                    <span>Entrevista</span>
+                </button>
+                <button class="chip" data-query="¿Qué roles de trabajo me convienen más según mi perfil?">
+                    <span class="chip-icon">🎯</span>
+                    <span>Job Match</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ===== CHAT SCREEN ===== -->
+        <div class="chat-screen hidden" id="chatScreen">
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages populated by JS -->
+            </div>
+
+            <!-- Chat input (bottom) -->
+            <div class="chat-input-container">
+                <div class="chat-input-wrapper">
+                    <textarea class="chat-input" id="chatInput"
+                        placeholder="Escribe tu pregunta sobre tu carrera profesional..." rows="1"></textarea>
+                    <div class="chat-input-actions">
+                        <button class="input-action-btn" id="chatAttachBtn" title="Adjuntar archivo">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg>
+                        </button>
+                        <div class="input-right-actions">
+                            <div class="model-selector" id="chatModelSelector">
+                                <span class="model-name">CareerAI Pro</span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="6 9 12 15 18 9" />
+                                </svg>
+                            </div>
+                            <button class="send-btn chat-send" id="chatSendBtn" title="Enviar" disabled>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="22" y1="2" x2="11" y2="13" />
+                                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== MODEL DROPDOWN ===== -->
+    <div class="model-dropdown hidden" id="modelDropdown">
+        <div class="model-dropdown-header">Selecciona un modelo</div>
+        <div class="model-option active" data-model="llama-3.3-70b-versatile" data-display="CareerAI Pro">
+            <img src="/static/icon-pro.png" alt="CareerAI Pro" class="model-option-icon" width="26" height="26"
+                style="width:26px;height:26px;max-width:26px;max-height:26px;">
+            <div class="model-option-info">
+                <span class="model-option-name">CareerAI Pro</span>
+                <span class="model-option-desc">Recomendado · Máxima calidad</span>
+            </div>
+            <svg class="model-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12" />
+            </svg>
+        </div>
+        <div class="model-option" data-model="llama-3.1-8b-instant" data-display="CareerAI Flash">
+            <img src="/static/icon-flash.png" alt="CareerAI Flash" class="model-option-icon" width="26" height="26"
+                style="width:26px;height:26px;max-width:26px;max-height:26px;">
+            <div class="model-option-info">
+                <span class="model-option-name">CareerAI Flash</span>
+                <span class="model-option-desc">Ultra rápido · Respuestas al instante</span>
+            </div>
+            <svg class="model-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- ===== FILE UPLOAD MODAL ===== -->
+    <div class="upload-modal hidden" id="uploadModal">
+        <div class="upload-modal-backdrop" id="uploadBackdrop"></div>
+        <div class="upload-modal-content">
+            <div class="upload-modal-header">
+                <h3>📄 Subir documento</h3>
+                <button class="upload-close" id="uploadClose">&times;</button>
+            </div>
+            <div class="upload-modal-body">
+                <div class="upload-type-selector">
+                    <label class="upload-type active" data-type="cv">
+                        <span>📋</span> CV / Resume
+                    </label>
+                    <label class="upload-type" data-type="job_offer">
+                        <span>💼</span> Oferta de Trabajo
+                    </label>
+                    <label class="upload-type" data-type="linkedin">
+                        <span>👤</span> Perfil LinkedIn
+                    </label>
+                    <label class="upload-type" data-type="other">
+                        <span>📝</span> Otro
+                    </label>
+                </div>
+                <div class="upload-dropzone" id="uploadDropzone">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="17 8 12 3 7 8" />
+                        <line x1="12" y1="3" x2="12" y2="15" />
+                    </svg>
+                    <p>Arrastra archivos aquí o <strong>haz clic para seleccionar</strong></p>
+                    <span class="upload-formats">PDF, DOCX, TXT, JPG, PNG, WEBP</span>
+                    <input type="file" id="fileInput" accept=".pdf,.txt,.docx,.jpg,.jpeg,.png,.webp" hidden>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== JOBS PANEL (slide-out drawer) ===== -->
+    <div id="jobsPanelOverlay" onclick="closeJobsPanel()"
+        style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:1100; backdrop-filter:blur(2px);">
+    </div>
+    <div id="jobsPanel"
+        style="display:none; position:fixed; top:0; right:0; width:min(480px,100vw); height:100vh; background:var(--bg-secondary); border-left:1px solid var(--border-medium); z-index:1101; flex-direction:column; overflow:hidden; box-shadow:-8px 0 40px rgba(0,0,0,0.3);">
+        <!-- Header -->
+        <div
+            style="padding:20px 20px 0; border-bottom:1px solid var(--border-medium); padding-bottom:16px; flex-shrink:0;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
+                <div>
+                    <h2 style="font-size:1.15rem; font-weight:700; margin:0;">💼 Ofertas de Trabajo</h2>
+                    <p style="font-size:0.78rem; color:var(--text-tertiary); margin:2px 0 0;">Vía LinkedIn · Indeed ·
+                        Glassdoor · más</p>
+                </div>
+                <button onclick="closeJobsPanel()"
+                    style="background:none; border:none; cursor:pointer; color:var(--text-secondary); font-size:1.4rem; line-height:1; padding:4px 8px;">&times;</button>
+            </div>
+            <!-- Search bar -->
+            <div style="display:flex; gap:8px; margin-bottom:12px;">
+                <input id="jobsSearchInput" type="text" class="welcome-input"
+                    placeholder="Ej: Python developer, diseñador UX..."
+                    style="flex:1; border:1px solid var(--border-medium); border-radius:8px; padding:9px 12px; min-height:0; font-size:0.88rem;">
+                <button onclick="loadJobs()" id="jobsSearchBtn" class="config-btn"
+                    style="padding:9px 16px; white-space:nowrap;">Buscar</button>
+            </div>
+            <!-- Filters row - Custom Dropdowns -->
+            <div style="display:flex; gap:8px; flex-wrap:wrap; font-size:0.8rem;">
+                <!-- Hidden real selects for value access -->
+                <select id="jobsCountry" style="display:none;">
+                    <option value="">🌍 Todo el mundo</option>
+                    <option value="ar">🇦🇷 Argentina</option>
+                    <option value="es">🇪🇸 España</option>
+                    <option value="mx">🇲🇽 México</option>
+                    <option value="co">🇨🇴 Colombia</option>
+                    <option value="cl">🇨🇱 Chile</option>
+                    <option value="pe">🇵🇪 Perú</option>
+                    <option value="us">🇺🇸 USA</option>
+                    <option value="gb">🇬🇧 UK</option>
+                    <option value="de">🇩🇪 Alemania</option>
+                </select>
+                <select id="jobsDatePosted" style="display:none;">
+                    <option value="month">📅 Último mes</option>
+                    <option value="week">📅 Última semana</option>
+                    <option value="3days">📅 Últimos 3 días</option>
+                    <option value="today">📅 Hoy</option>
+                    <option value="all">📅 Todas</option>
+                </select>
+
+                <!-- Custom dropdown: Country -->
+                <div class="jobs-custom-select" id="countryDropdown"
+                    style="flex:1; min-width:120px; position:relative;">
+                    <div class="jobs-select-btn" onclick="toggleJobsDropdown('countryDropdown')">
+                        <span id="countryDropdownLabel">🌍 Todo el mundo</span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                    <div class="jobs-select-menu" id="countryDropdownMenu">
+                        <div class="jobs-select-option active"
+                            onclick="selectJobsOption('countryDropdown','jobsCountry','','🌍 Todo el mundo')">🌍 Todo el
+                            mundo</div>
+                        <div class="jobs-select-option"
+                            onclick="selectJobsOption('countryDropdown','jobsCountry','ar','🇦🇷 Argentina')">🇦🇷
+                            Argentina</div>
+                        <div class="jobs-select-option"
+                            onclick="selectJobsOption('countryDropdown','jobsCountry','es','🇪🇸 España')">🇪🇸 España
+                        </div>
+                        <div class="jobs-select-option"
+                            onclick="selectJobsOption('countryDropdown','jobsCountry','mx','🇲🇽 México')">🇲🇽 México
+                        </div>
+                        <div class="jobs-select-option"
+                            onclick="selectJobsOption('countryDropdown','jobsCountry','co','🇨🇴 Colombia')">🇨🇴
+                            Colombia</div>
+                        <div class="jobs-select-option"
+                            onclick="selectJobsOption('countryDropdown','jobsCountry','cl','🇨🇱 Chile')">🇨🇱 Chile
+                        </div>
+                        <div class="jobs-select-option"
+                            onclick="selectJobsOption('countryDropdown','jobsCountry','pe','🇵🇪 Perú')">🇵🇪 Perú</div>
+                        <div class="jobs-select-option"
+                            onclick="selectJobsOption('countryDropdown','jobsCountry','us','🇺🇸 USA')">🇺🇸 USA</div>
+                        <div class="jobs-select-option"
+                            onclick="selectJobsOption('countryDropdown','jobsCountry','gb','🇬🇧 UK')">🇬🇧 UK</div>
+                        <div class="jobs-select-option"
+                            onclick="selectJobsOption('countryDropdown','jobsCountry','de','🇩🇪 Alemania')">🇩🇪
+                            Alemania</div>
+                    </div>
+                </div>
+
+                <!-- Custom dropdown: Date -->
+                <div class="jobs-custom-select" id="dateDropdown" style="flex:1; min-width:130px; position:relative;">
+                    <div class="jobs-select-btn" onclick="toggleJobsDropdown('dateDropdown')">
+                        <span id="dateDropdownLabel">📅 Último mes</span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                    <div class="jobs-select-menu" id="dateDropdownMenu">
+                        <div class="jobs-select-option active"
+                            onclick="selectJobsOption('dateDropdown','jobsDatePosted','month','📅 Último mes')">📅
+                            Último mes</div>
+                        <div class="jobs-select-option"
+                            onclick="selectJobsOption('dateDropdown','jobsDatePosted','week','📅 Última semana')">📅
+                            Última semana</div>
+                        <div class="jobs-select-option"
+                            onclick="selectJobsOption('dateDropdown','jobsDatePosted','3days','📅 Últimos 3 días')">📅
+                            Últimos 3 días</div>
+                        <div class="jobs-select-option"
+                            onclick="selectJobsOption('dateDropdown','jobsDatePosted','today','📅 Hoy')">📅 Hoy</div>
+                        <div class="jobs-select-option"
+                            onclick="selectJobsOption('dateDropdown','jobsDatePosted','all','📅 Todas')">📅 Todas</div>
+                    </div>
+                </div>
+
+                <label
+                    style="display:flex; align-items:center; gap:5px; color:var(--text-secondary); cursor:pointer; border:1px solid var(--border-medium); border-radius:6px; padding:6px 10px; white-space:nowrap; background:var(--bg-hover);">
+                    <input type="checkbox" id="jobsRemoteOnly" style="accent-color:var(--accent-primary);"> 🏠 Remoto
+                </label>
+            </div>
+        </div>
+        <!-- Results area -->
+        <div id="jobsResults"
+            style="flex:1; overflow-y:auto; padding:16px 20px; display:flex; flex-direction:column; gap:12px;">
+            <div id="jobsEmptyState" style="text-align:center; padding:60px 20px; color:var(--text-tertiary);">
+                <div style="font-size:3rem; margin-bottom:12px;">🔍</div>
+                <p style="font-size:1rem; font-weight:600; margin-bottom:6px; color:var(--text-secondary);">Busca
+                    ofertas de empleo</p>
+                <p style="font-size:0.85rem;">Escribe un puesto o habilidad arriba.<br>Si tienes un CV cargado, <a
+                        href="#" onclick="event.preventDefault(); autoFillJobSearch()"
+                        style="color:var(--accent-primary);">auto-completar desde mi CV</a>.</p>
+            </div>
+        </div>
+        <!-- Footer count -->
+        <div id="jobsFooter"
+            style="display:none; padding:12px 20px; border-top:1px solid var(--border-medium); font-size:0.8rem; color:var(--text-tertiary); text-align:center; flex-shrink:0;">
+        </div>
+    </div>
+
+    </div>
+
+    <!-- ===== LOGIN MODAL ===== -->
+    <div class="upload-modal hidden" id="loginModal">
+        <div class="upload-modal-backdrop" id="loginBackdrop"></div>
+        <div class="upload-modal-content" style="max-width: 360px;">
+            <div class="upload-modal-header" style="justify-content: center; position: relative; border-bottom: none;">
+                <h3 style="font-size: 1.25rem;" id="loginTitle">Acceso a CareerAI</h3>
+                <button class="upload-close" id="loginClose" style="position: absolute; right: 20px;">&times;</button>
+            </div>
+            <div class="upload-modal-body" style="padding-top: 5px;">
+                <p style="text-align: center; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 24px;">
+                    Inicia sesión para guardar tu historial y documentos en la nube.</p>
+
+                <form id="authForm" onsubmit="handleAuthSubmit(event)">
+                    <div id="registerFields" style="display: none; margin-bottom: 12px;">
+                        <input type="text" id="authName" class="welcome-input"
+                            style="border: 1px solid var(--border-medium); border-radius: 8px; padding: 10px 14px; min-height: 40px; margin-bottom: 0;"
+                            placeholder="Tu Nombre">
+                    </div>
+
+                    <div id="emailFieldGroup" style="margin-bottom: 12px;">
+                        <input type="email" id="authEmail" class="welcome-input"
+                            style="border: 1px solid var(--border-medium); border-radius: 8px; padding: 10px 14px; min-height: 40px; margin-bottom: 0;"
+                            placeholder="Correo electrónico" required>
+                    </div>
+
+                    <div id="resetCodeFields" style="display: none; margin-bottom: 12px;">
+                        <input type="text" id="authResetCode" class="welcome-input"
+                            style="border: 1px solid var(--border-medium); border-radius: 8px; padding: 10px 14px; min-height: 40px; margin-bottom: 0;"
+                            placeholder="Código de 6 dígitos">
+                    </div>
+
+                    <div id="passwordFieldsGroup" style="margin-bottom: 16px;">
+                        <input type="password" id="authPassword" class="welcome-input"
+                            style="border: 1px solid var(--border-medium); border-radius: 8px; padding: 10px 14px; min-height: 40px; margin-bottom: 0;"
+                            placeholder="Contraseña" required>
+                        <div style="text-align: right; margin-top: 6px;" id="forgotPassContainer">
+                            <a href="#" onclick="event.preventDefault(); setAuthMode('forgot')"
+                                style="font-size: 0.8rem; color: var(--accent-primary); text-decoration: none;">¿Olvidaste
+                                tu contraseña?</a>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="authSubmitBtn" class="config-btn"
+                        style="width: 100%; display: flex; justify-content: center; margin-bottom: 16px;">
+                        Iniciar Sesión
+                    </button>
+
+                    <!-- Auxiliary button for Forgot Password Step 1 (Send Code) -->
+                    <button type="button" id="authSendCodeBtn" onclick="handleSendResetCode(event)" class="config-btn"
+                        style="display: none; width: 100%; justify-content: center; margin-bottom: 16px; background: var(--bg-hover); color: var(--text-primary); border: 1px solid var(--border-medium);">
+                        Enviar código a mi correo
+                    </button>
+                </form>
+
+                <div id="authToggleContainer"
+                    style="text-align: center; font-size: 0.85rem; color: var(--text-tertiary); margin-bottom: 20px;">
+                    <span id="authToggleText">¿No tienes cuenta? <a href="#"
+                            onclick="event.preventDefault(); setAuthMode('register')"
+                            style="color: var(--accent-primary); text-decoration: none;">Regístrate</a></span>
+                </div>
+
+                <div id="backToLoginContainer"
+                    style="display: none; text-align: center; font-size: 0.85rem; margin-bottom: 20px;">
+                    <a href="#" onclick="event.preventDefault(); setAuthMode('login')"
+                        style="color: var(--text-secondary); text-decoration: underline;">Volver al inicio de sesión</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PROFILE MODAL ===== -->
+    <div class="upload-modal hidden" id="profileModal">
+        <div class="upload-modal-backdrop" id="profileBackdrop"></div>
+        <div class="upload-modal-content" style="max-width: 380px; text-align: center;">
+            <div class="upload-modal-header" style="justify-content: center; position: relative; border-bottom: none;">
+                <h3 style="font-size: 1.25rem;">Mi Perfil</h3>
+                <button class="upload-close" id="profileClose" style="position: absolute; right: 20px;">&times;</button>
+            </div>
+            <div class="upload-modal-body" style="padding-top: 5px;">
+                <form id="profileForm" onsubmit="handleProfileSubmit(event)">
+
+                    <div style="position: relative; width: 80px; height: 80px; margin: 0 auto 16px; border-radius: 50%; border: 2px solid var(--accent-primary); overflow: hidden; background: var(--bg-hover); cursor: pointer;"
+                        onclick="document.getElementById('profilePictureInput').click()">
+                        <img id="profilePreview" src="" style="width: 100%; height: 100%; object-fit: cover;">
+                        <div
+                            style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.5); font-size: 0.7rem; color: white; padding: 4px 0;">
+                            Editar</div>
+                    </div>
+                    <input type="file" id="profilePictureInput" accept=".jpg,.jpeg,.png,.webp" hidden
+                        onchange="handleProfilePictureSelect(event)">
+
+                    <div style="margin-bottom: 12px; text-align: left;">
+                        <label
+                            style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 4px; display: block;">Nombre</label>
+                        <input type="text" id="profileName" class="welcome-input"
+                            style="border: 1px solid var(--border-medium); border-radius: 8px; padding: 10px 14px; min-height: 40px; margin-bottom: 0;"
+                            required>
+                    </div>
+
+                    <div style="margin-bottom: 20px; text-align: left;">
+                        <label
+                            style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 4px; display: block;">Correo
+                            de la cuenta</label>
+                        <input type="email" id="profileEmail" class="welcome-input"
+                            style="background: var(--bg-hover); border: 1px solid var(--border-medium); border-radius: 8px; padding: 10px 14px; min-height: 40px; margin-bottom: 0; color: var(--text-tertiary);"
+                            disabled>
+                    </div>
+
+                    <button type="submit" id="profileSubmitBtn" class="config-btn"
+                        style="width: 100%; margin-bottom: 16px; display: flex; justify-content: center;">
+                        Guardar Cambios
+                    </button>
+
+                    <div style="border-top: 1px solid var(--border-medium); padding-top: 16px; margin-bottom: 8px;">
+                        <button type="button" onclick="handleLogout()" class="config-btn"
+                            style="width: 100%; background: transparent; border: 1px solid #dc2626; color: #dc2626; display: flex; justify-content: center; align-items: center; gap: 8px;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                <polyline points="16 17 21 12 16 7"></polyline>
+                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                            </svg>
+                            Cerrar Sesión
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app.js?v=2"></script>
+</body>
+
+</html>
