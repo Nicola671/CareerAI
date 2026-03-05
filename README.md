@@ -9,22 +9,28 @@ pinned: true
 ---
 
 <p align="center">
-  <img src="https://i.postimg.cc/2yY6ztpG/ideogram-v3-0-Logo-minimalista-y-moderno-para-Career-AI-una-app-de-asistente-IA-para-carreras-p-0-(1.png" alt="CareerAI Logo" width="420">
+  <img src="https://i.postimg.cc/2yY6ztpG/ideogram-v3-0-Logo-minimalista-y-moderno-para-Career-AI-una-app-de-asistente-IA-para-carreras-p-0-(1.png" alt="CareerAI Logo" width="400">
 </p>
 
 <h1 align="center">CareerAI</h1>
 
 <p align="center">
-  <strong>🧠 AI-Powered Career Assistant | Asistente Inteligente de Carrera</strong><br>
-  <em>Analyze your CV · Generate Cover Letters · Simulate Interviews · Search Jobs</em>
+  <strong>AI-Powered Career Assistant | Asistente de Carrera con IA</strong><br>
+  <em>Upload your CV → Get personalized career advice → Land your next job</em>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white" alt="Python">
-  <img src="https://img.shields.io/badge/FastAPI-0.115+-green?logo=fastapi&logoColor=white" alt="FastAPI">
-  <img src="https://img.shields.io/badge/Groq-Llama_3.3-orange?logo=meta&logoColor=white" alt="Groq">
-  <img src="https://img.shields.io/badge/ChromaDB-Vector_Store-purple" alt="ChromaDB">
-  <img src="https://img.shields.io/badge/License-MIT-yellow" alt="License">
+  <a href="https://careerai-app.hf.space"><img src="https://img.shields.io/badge/🚀_Live_Demo-careerai--app.hf.space-00C853?style=for-the-badge" alt="Live Demo"></a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/FastAPI-0.115+-009688?logo=fastapi&logoColor=white" alt="FastAPI">
+  <img src="https://img.shields.io/badge/Groq-Llama_3.3_70B-F97316?logo=meta&logoColor=white" alt="Groq">
+  <img src="https://img.shields.io/badge/RAG-Hybrid_Search-8B5CF6" alt="RAG">
+  <img src="https://img.shields.io/badge/ChromaDB-Vector_Store-7C3AED" alt="ChromaDB">
+  <img src="https://img.shields.io/badge/Docker-Deployed-2496ED?logo=docker&logoColor=white" alt="Docker">
+  <img src="https://img.shields.io/badge/License-MIT-EAB308" alt="License">
 </p>
 
 <p align="center">
@@ -35,196 +41,253 @@ pinned: true
 
 # 🇺🇸 English
 
-## 🎬 What is CareerAI?
+## What is CareerAI?
 
-**CareerAI** is an AI-powered web application that helps you boost your professional career. Upload your documents (CV, cover letters, certificates) and the AI assistant analyzes them using advanced Retrieval-Augmented Generation (RAG) to give you personalized recommendations, generate professional documents, and prepare you for job interviews.
+**CareerAI** is a full-stack AI web application that analyzes your professional documents (CV, cover letters, certificates) using Retrieval-Augmented Generation (RAG) to deliver accurate, context-aware career guidance — with zero hallucinations.
 
-### ✨ 100% Free · No hallucinations · Based on your real documents
+Built from scratch with a **5-stage hybrid search pipeline**, real-time streaming, and a premium Claude-style interface.
+
+> **Try it now →** [careerai-app.hf.space](https://careerai-app.hf.space)
 
 ---
 
-## 🚀 Key Features
+## Key Features
 
-### 🤖 Custom AI Models
+### AI Models
 
-| Model | Engine | Description |
-|-------|--------|-------------|
-| 🧠 **CareerAI Pro** | Llama 3.3 70B | Maximum quality · Detailed responses |
-| ⚡ **CareerAI Flash** | Llama 3.1 8B | Ultra fast · Instant responses |
+| Model | Engine | Use Case |
+|-------|--------|----------|
+| 🧠 **CareerAI Pro** | Llama 3.3 70B | Deep analysis, detailed responses |
+| ⚡ **CareerAI Flash** | Llama 3.1 8B | Quick answers, instant feedback |
 
-### 💬 5 Assistant Modes
+### 5 Specialized Modes
 
-| Mode | What it does |
+| Mode | Description |
 |------|-------------|
-| 💬 **General Chat** | Ask anything about your professional career |
-| 🎯 **Job Match** | Analyze your compatibility with job offers (% match) |
-| ✉️ **Cover Letter** | Generate personalized cover letters using your real CV |
-| 📈 **Skills Gap** | Identify missing skills + roadmap to improve |
-| 🎤 **Interview** | Simulate interviews with technical and STAR method questions |
+| 💬 **General Chat** | Open-ended career consultation |
+| 🎯 **Job Match** | Compatibility analysis with job postings (% match score) |
+| ✉️ **Cover Letter** | Auto-generated cover letters based on your actual CV data |
+| 📈 **Skills Gap** | Identifies missing skills + improvement roadmap |
+| 🎤 **Mock Interview** | Simulated interviews with STAR method and technical questions |
 
-### 📋 Full Feature List
+### Platform Capabilities
 
-| Feature | Description |
-|---------|-------------|
-| 📄 **Multi-format** | Supports PDF, DOCX, TXT, images (JPG, PNG, WebP) |
-| 🖼️ **Vision AI** | Smart reading of scanned PDFs and document photos |
-| ⚡ **Streaming** | Real-time token-by-token responses |
-| 📤 **Premium Export** | Export to PDF, DOCX, HTML, TXT with professional formatting |
-| 📊 **Dashboard** | Skills charts, professional timeline, AI insights |
-| 🔐 **Full Auth** | Register, login, Google OAuth, password reset |
-| 💼 **Job Search** | Integration with LinkedIn, Indeed, Glassdoor via JSearch |
-| 🎨 **Premium UI** | Claude/ChatGPT-style design with dark mode |
-| 📱 **Responsive** | Works on desktop, tablet, and mobile |
-| 💾 **Persistence** | Chat history synced to the cloud |
+| Category | Features |
+|----------|----------|
+| **Document Processing** | PDF, DOCX, TXT, JPG, PNG, WebP — including scanned documents via Vision AI |
+| **Real-time Streaming** | Token-by-token response generation with live markdown rendering |
+| **Export Engine** | Professional PDF, DOCX, HTML, TXT with smart filename generation |
+| **Analytics Dashboard** | Skills radar chart, professional timeline, AI-powered insights |
+| **Authentication** | JWT + BCrypt + Google OAuth + password recovery |
+| **Job Search** | Live job listings from LinkedIn, Indeed, Glassdoor via JSearch API |
+| **Responsive Design** | Premium dark-mode UI optimized for desktop, tablet, and mobile |
+| **Cloud Persistence** | Conversations synced per user, guest sessions isolated |
 
 ---
 
-## 🧠 RAG Pipeline v2.0
+## RAG Pipeline Architecture
 
-CareerAI uses an advanced retrieval pipeline combining multiple techniques to find the most relevant information from your documents:
+CareerAI implements a **5-stage hybrid retrieval pipeline** that combines semantic understanding with lexical precision:
 
 ```
 📝 User Query
      │
-     ├── 1️⃣ Vector Search (Semantic)
-     │      └── ChromaDB + BGE-M3 (100+ languages)
+     ├── 1. Vector Search (Semantic)
+     │     └── ChromaDB + BGE-M3 Embeddings (100+ languages)
      │
-     ├── 2️⃣ Keyword Search (Lexical)
-     │      └── BM25 lexical matching
+     ├── 2. Keyword Search (Lexical)
+     │     └── BM25 with tokenized index
      │
-     ├── 3️⃣ Reciprocal Rank Fusion (RRF)
-     │      └── Merges semantic + lexical results
+     ├── 3. Reciprocal Rank Fusion (RRF)
+     │     └── Merges and normalizes both result sets
      │
-     ├── 4️⃣ Reranking (Cross-Encoder)
-     │      └── BGE-Reranker-v2-m3 (relevance reordering)
+     ├── 4. Cross-Encoder Reranking
+     │     └── BGE-Reranker-v2-m3 (fine-grained relevance scoring)
      │
-     └── 5️⃣ LLM with optimized context
-            └── Groq + Llama 3.3 70B (streaming)
+     └── 5. LLM Generation
+           └── Groq API + Llama 3.3 70B (streaming)
 ```
 
-### Available Embedding Models
+### Embedding Models
 
-| Model | Languages | Size | Performance |
-|-------|-----------|------|-------------|
-| 🌍 **BGE-M3** (Recommended) | 100+ | ~2.3 GB | ⭐⭐⭐⭐⭐ |
+| Model | Languages | Size | Quality |
+|-------|-----------|------|---------|
+| 🌍 **BGE-M3** | 100+ | ~2.3 GB | ⭐⭐⭐⭐⭐ |
 | 🚀 **GTE Multilingual** | 70+ | ~580 MB | ⭐⭐⭐⭐ |
 | 📐 **Multilingual E5** | 100+ | ~1.1 GB | ⭐⭐⭐⭐ |
 | ⚡ **MiniLM v2** | English | ~90 MB | ⭐⭐⭐ |
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 |-------|------------|
 | **Backend** | FastAPI + Uvicorn |
-| **Frontend** | HTML5 + CSS3 + JavaScript (Claude-style) |
+| **Frontend** | Vanilla HTML5 / CSS3 / JavaScript |
 | **LLM** | Groq API (Llama 3.3 70B / Llama 3.1 8B) |
 | **RAG** | ChromaDB + BM25 + BGE-M3 + Reranker + RRF |
 | **Database** | SQLite + SQLAlchemy |
-| **Auth** | JWT + BCrypt + Google OAuth |
-| **Email** | FastAPI-Mail + Gmail SMTP |
-| **Vision AI** | Groq + Llama 4 Scout |
-| **Embeddings** | HuggingFace (BGE-M3, GTE, E5, MiniLM) |
+| **Auth** | JWT + BCrypt + Google OAuth 2.0 |
+| **Vision AI** | Groq + Llama 4 Scout (scanned document OCR) |
+| **Embeddings** | HuggingFace Sentence-Transformers |
 | **Export** | FPDF2, python-docx |
 | **Job Search** | JSearch API (RapidAPI) |
+| **Deployment** | Docker + HuggingFace Spaces |
 
 ---
 
-## � Installation & Setup
+## Quick Start
 
-### 1. Clone the repository
+### Prerequisites
+
+- Python 3.10+
+- [Groq API Key](https://console.groq.com) (free)
+
+### Setup
 
 ```bash
+# Clone
 git clone https://github.com/Nicola671/CareerAI.git
 cd CareerAI
-```
 
-### 2. Create virtual environment
-
-```bash
+# Virtual environment
 python -m venv venv
+venv\Scripts\activate        # Windows
+# source venv/bin/activate   # Mac/Linux
 
-# Windows
-venv\Scripts\activate
-
-# Mac/Linux
-source venv/bin/activate
-```
-
-### 3. Install dependencies
-
-```bash
+# Dependencies
 pip install -r requirements.txt
 ```
 
-### 4. Configure environment variables
+### Configure
 
 Create a `.env` file in the project root:
 
 ```env
-# Groq API Key (free from console.groq.com)
-GROQ_API_KEY=your_api_key_here
+# Required
+GROQ_API_KEY=gsk_your_key_here
+SECRET_KEY=your_random_secret_key
 
-# JWT Secret (change to something random)
-SECRET_KEY=your_very_long_random_secret_key
-
-# Email for password recovery (optional)
+# Optional
+JSEARCH_API_KEY=your_jsearch_key
 MAIL_USERNAME=your_email@gmail.com
 MAIL_PASSWORD=your_app_password
 MAIL_FROM=your_email@gmail.com
-
-# JSearch API Key for job search (optional)
-JSEARCH_API_KEY=your_jsearch_key
 ```
 
-### 5. Get Groq API Key (FREE)
-
-1. Go to [console.groq.com](https://console.groq.com)
-2. Create a free account
-3. Go to "API Keys" → "Create API Key"
-4. Copy your key (starts with `gsk_...`)
-5. Paste it in your `.env` file
-
-### 6. Run
+### Run
 
 ```bash
 uvicorn api:app --reload --port 8000
 ```
 
-Open **http://localhost:8000** in your browser 🚀
+Open **http://localhost:8000** → ready to go.
 
 ---
 
-## � API Endpoints (22 routes)
+## Deployment
 
-| Group | Endpoints | Description |
-|-------|-----------|-------------|
-| 🏠 Frontend | `GET /` | Serves the web app |
-| ⚙️ Config | `GET /api/status`, `POST /api/config` | Status & configuration |
-| 💬 Chat | `POST /api/chat`, `POST /api/chat/stream` | Chat with/without streaming |
-| 📄 Docs | `POST /api/documents`, `GET /api/documents`, `DELETE /api/documents/{file}` | Document CRUD |
-| 📤 Export | `POST /api/export`, `POST /api/export/conversation` | Export to PDF/DOCX/HTML/TXT |
-| 💼 Jobs | `GET /api/jobs` | Job search |
-| 📊 Dashboard | `GET /api/dashboard` | AI-powered profile analysis |
-| 🔐 Auth | `POST /api/auth/register`, `POST /api/auth/login`, `GET /api/auth/me` | Full authentication |
+CareerAI is deployed on **HuggingFace Spaces** using Docker:
 
-Interactive API docs: **http://localhost:8000/docs** (Swagger UI)
+```bash
+# Add HF remote
+git remote add hf https://huggingface.co/spaces/CareerAI/app
+
+# Deploy (push to HF)
+git push hf main --force
+```
+
+Set environment variables as **Secrets** in HF Space Settings.
+
+| Env Variable | Required | Description |
+|-------------|----------|-------------|
+| `GROQ_API_KEY` | ✅ | LLM API key from console.groq.com |
+| `SECRET_KEY` | ✅ | JWT signing key |
+| `EMBEDDING_MODEL` | ❌ | Override embedding model (default: `bge-m3`) |
+| `ENABLE_RERANKING` | ❌ | Enable/disable reranker (default: `true`) |
+| `JSEARCH_API_KEY` | ❌ | Job search API |
+| `MAIL_USERNAME` | ❌ | Gmail SMTP username |
+| `MAIL_PASSWORD` | ❌ | Gmail app password |
+| `MAIL_FROM` | ❌ | Sender email address |
 
 ---
 
-## 📊 Project Metrics
+## Project Structure
+
+```
+CareerAI/
+├── api.py                        # FastAPI application (22 endpoints)
+├── Dockerfile                    # Production Docker image
+├── requirements.txt              # Python dependencies
+├── render.yaml                   # Render deployment config
+├── .env                          # Environment variables (git-ignored)
+│
+├── frontend/                     # Client-side application
+│   ├── index.html                # HTML structure
+│   ├── app.js                    # Application logic (1,842 lines)
+│   ├── styles.css                # Design system (1,695 lines)
+│   └── *.png                     # Icons and favicon
+│
+├── src/                          # Core modules
+│   ├── rag_engine.py             # RAG v2.0 — Hybrid Search + Reranking
+│   ├── career_assistant.py       # LLM orchestration — 5 specialized modes
+│   ├── document_processor.py     # Multi-format extraction + Vision AI
+│   ├── profile_extractor.py      # Profile analysis for dashboard
+│   ├── exporter.py               # PDF / DOCX / HTML / TXT export
+│   ├── auth.py                   # JWT + Google OAuth + email recovery
+│   └── models.py                 # SQLAlchemy ORM (User, Conversation)
+│
+└── data/                         # Runtime data (git-ignored)
+    ├── uploads/                  # User documents
+    └── vectordb/                 # ChromaDB persistence
+```
+
+---
+
+## API Reference
+
+**22 endpoints** — full Swagger documentation at `/docs`
+
+| Group | Method | Endpoint | Description |
+|-------|--------|----------|-------------|
+| Status | `GET` | `/api/status` | Health check + system info |
+| Config | `POST` | `/api/config` | Configure API key and model |
+| Config | `POST` | `/api/config/rag` | Configure RAG settings |
+| Chat | `POST` | `/api/chat` | Single-response chat |
+| Chat | `POST` | `/api/chat/stream` | SSE streaming chat |
+| Documents | `POST` | `/api/documents/upload` | Upload and index document |
+| Documents | `GET` | `/api/documents` | List indexed documents |
+| Documents | `DELETE` | `/api/documents/{file}` | Remove document |
+| Export | `POST` | `/api/export` | Export message to PDF/DOCX/HTML/TXT |
+| Export | `POST` | `/api/export/conversation` | Export full conversation |
+| Jobs | `GET` | `/api/jobs` | Search job listings |
+| Dashboard | `GET` | `/api/dashboard` | AI profile analysis |
+| Auth | `POST` | `/api/auth/register` | User registration |
+| Auth | `POST` | `/api/auth/login` | User login |
+| Auth | `GET` | `/api/auth/me` | Current user info |
+| Auth | `POST` | `/api/auth/me` | Update profile |
+| Auth | `POST` | `/api/auth/forgot-password` | Request password reset |
+| Auth | `POST` | `/api/auth/reset-password` | Reset password with code |
+| Auth | `POST` | `/api/auth/google` | Google OAuth login |
+| Conversations | `GET` | `/api/conversations` | List saved conversations |
+| Conversations | `POST` | `/api/conversations` | Save conversation |
+| Conversations | `DELETE` | `/api/conversations/{id}` | Delete conversation |
+
+---
+
+## Metrics
 
 | Metric | Value |
 |--------|-------|
-| Lines of code | 8,400+ |
-| API Endpoints | 22 |
-| Frontend functions | 80+ |
-| Backend functions | 60+ |
-| Assistant modes | 5 |
-| Export formats | 4 (PDF, DOCX, HTML, TXT) |
-| Upload formats | 7 (PDF, DOCX, TXT, JPG, PNG, WEBP) |
-| Embedding models | 4 |
+| Total lines of code | **8,400+** |
+| API endpoints | **22** |
+| Frontend functions | **80+** |
+| Backend modules | **7** |
+| Assistant modes | **5** |
+| Export formats | **4** |
+| Supported upload types | **7** |
+| Embedding models | **4** |
 
 ---
 
@@ -232,224 +295,132 @@ Interactive API docs: **http://localhost:8000/docs** (Swagger UI)
 
 # 🇦🇷 Español
 
-## 🎬 ¿Qué es CareerAI?
+## ¿Qué es CareerAI?
 
-**CareerAI** es una aplicación web de inteligencia artificial que te ayuda a impulsar tu carrera profesional. Subís tus documentos (CV, cartas, certificados) y el asistente los analiza con IA avanzada (RAG) para darte recomendaciones personalizadas, generar documentos profesionales y prepararte para entrevistas.
+**CareerAI** es una aplicación web full-stack que analiza tus documentos profesionales (CV, cartas, certificados) usando Retrieval-Augmented Generation (RAG) para darte asesoramiento preciso y personalizado — sin alucinaciones.
 
-### ✨ Todo esto 100% gratis · Sin alucinaciones · Basado en tus documentos reales
+Construida desde cero con un **pipeline de búsqueda híbrida de 5 etapas**, streaming en tiempo real, y una interfaz premium estilo Claude.
 
----
-
-## 🚀 Funcionalidades Principales
-
-### 🤖 Modelos de IA Personalizados
-
-| Modelo | Motor | Descripción |
-|--------|-------|-------------|
-| 🧠 **CareerAI Pro** | Llama 3.3 70B | Máxima calidad · Respuestas detalladas |
-| ⚡ **CareerAI Flash** | Llama 3.1 8B | Ultra rápido · Respuestas al instante |
-
-### 💬 5 Modos del Asistente
-
-| Modo | Qué hace |
-|------|----------|
-| 💬 **Chat General** | Consultá lo que quieras sobre tu carrera profesional |
-| 🎯 **Job Match** | Analizá tu compatibilidad con ofertas de trabajo (% de match) |
-| ✉️ **Cover Letter** | Generá cartas de presentación personalizadas usando tu CV real |
-| 📈 **Skills Gap** | Identificá habilidades faltantes + roadmap para mejorar |
-| 🎤 **Entrevista** | Simulá entrevistas con preguntas técnicas y método STAR |
-
-### 📋 Lista Completa de Características
-
-| Feature | Descripción |
-|---------|-------------|
-| 📄 **Multi-formato** | Soporta PDF, DOCX, TXT, imágenes (JPG, PNG, WebP) |
-| 🖼️ **Vision AI** | Lectura inteligente de PDFs escaneados y fotos de documentos |
-| ⚡ **Streaming** | Respuestas en tiempo real token por token |
-| 📤 **Export Premium** | Exportá a PDF, DOCX, HTML, TXT con formato profesional |
-| 📊 **Dashboard** | Gráficos de skills, timeline profesional, insights de IA |
-| 🔐 **Auth Completo** | Registro, login, Google OAuth, reset de contraseña |
-| 💼 **Búsqueda de Empleo** | Integración con LinkedIn, Indeed, Glassdoor via JSearch |
-| 🎨 **UI Premium** | Diseño tipo Claude/ChatGPT con dark mode |
-| 📱 **Responsive** | Funciona en desktop, tablet y celular |
-| 💾 **Persistencia** | Historial de chats sincronizado en la nube |
+> **Probalo ahora →** [careerai-app.hf.space](https://careerai-app.hf.space)
 
 ---
 
-## 🧠 Pipeline RAG v2.0
+## Funcionalidades
 
-CareerAI usa un pipeline de retrieval avanzado que combina múltiples técnicas para encontrar la información más relevante de tus documentos:
+### Modelos de IA
+
+| Modelo | Motor | Uso |
+|--------|-------|-----|
+| 🧠 **CareerAI Pro** | Llama 3.3 70B | Análisis profundo, respuestas detalladas |
+| ⚡ **CareerAI Flash** | Llama 3.1 8B | Respuestas rápidas, feedback instantáneo |
+
+### 5 Modos Especializados
+
+| Modo | Descripción |
+|------|-------------|
+| 💬 **Chat General** | Consulta abierta sobre tu carrera |
+| 🎯 **Job Match** | Análisis de compatibilidad con ofertas (% de match) |
+| ✉️ **Cover Letter** | Cartas de presentación generadas desde tu CV real |
+| 📈 **Skills Gap** | Habilidades faltantes + roadmap de mejora |
+| 🎤 **Entrevista** | Simulación con preguntas técnicas y método STAR |
+
+### Capacidades de la Plataforma
+
+| Categoría | Características |
+|-----------|----------------|
+| **Procesamiento** | PDF, DOCX, TXT, JPG, PNG, WebP — incluyendo documentos escaneados con Vision AI |
+| **Streaming** | Generación token-por-token con rendering markdown en vivo |
+| **Exportación** | PDF, DOCX, HTML, TXT profesional con nombres inteligentes |
+| **Dashboard** | Gráfico radar de skills, timeline profesional, insights con IA |
+| **Autenticación** | JWT + BCrypt + Google OAuth + recuperación de contraseña |
+| **Búsqueda de Empleo** | LinkedIn, Indeed, Glassdoor en tiempo real vía JSearch API |
+| **Diseño** | UI premium dark-mode optimizada para desktop, tablet y móvil |
+| **Persistencia** | Conversaciones sincronizadas por usuario |
+
+---
+
+## Arquitectura RAG
 
 ```
 📝 Query del usuario
      │
-     ├── 1️⃣ Vector Search (Semántico)
-     │      └── ChromaDB + BGE-M3 (100+ idiomas)
+     ├── 1. Búsqueda Vectorial (Semántica)
+     │     └── ChromaDB + BGE-M3 (100+ idiomas)
      │
-     ├── 2️⃣ Keyword Search (Léxico)
-     │      └── BM25 lexical matching
+     ├── 2. Búsqueda por Keywords (Léxica)
+     │     └── BM25 con índice tokenizado
      │
-     ├── 3️⃣ Reciprocal Rank Fusion (RRF)
-     │      └── Combina resultados semánticos + léxicos
+     ├── 3. Reciprocal Rank Fusion (RRF)
+     │     └── Combina y normaliza ambos resultados
      │
-     ├── 4️⃣ Reranking (Cross-Encoder)
-     │      └── BGE-Reranker-v2-m3 (reordena por relevancia)
+     ├── 4. Reranking (Cross-Encoder)
+     │     └── BGE-Reranker-v2-m3 (scoring de relevancia)
      │
-     └── 5️⃣ LLM con contexto optimizado
-            └── Groq + Llama 3.3 70B (streaming)
+     └── 5. Generación LLM
+           └── Groq API + Llama 3.3 70B (streaming)
 ```
 
 ---
 
-## 🛠️ Stack Tecnológico
-
-| Capa | Tecnología |
-|------|------------|
-| **Backend** | FastAPI + Uvicorn |
-| **Frontend** | HTML5 + CSS3 + JavaScript (estilo Claude) |
-| **LLM** | Groq API (Llama 3.3 70B / Llama 3.1 8B) |
-| **RAG** | ChromaDB + BM25 + BGE-M3 + Reranker + RRF |
-| **Base de datos** | SQLite + SQLAlchemy |
-| **Auth** | JWT + BCrypt + Google OAuth |
-| **Email** | FastAPI-Mail + Gmail SMTP |
-| **Vision AI** | Groq + Llama 4 Scout |
-| **Embeddings** | HuggingFace (BGE-M3, GTE, E5, MiniLM) |
-| **Exportación** | FPDF2, python-docx |
-| **Búsqueda** | JSearch API (RapidAPI) |
-
----
-
-## 🚀 Instalación y Setup
-
-### 1. Clonar el repositorio
+## Instalación Local
 
 ```bash
+# Clonar
 git clone https://github.com/Nicola671/CareerAI.git
 cd CareerAI
-```
 
-### 2. Crear entorno virtual
-
-```bash
+# Entorno virtual
 python -m venv venv
-
-# Windows
 venv\Scripts\activate
 
-# Mac/Linux
-source venv/bin/activate
-```
-
-### 3. Instalar dependencias
-
-```bash
+# Dependencias
 pip install -r requirements.txt
 ```
 
-### 4. Configurar variables de entorno
-
-Creá un archivo `.env` en la raíz del proyecto:
+Creá un archivo `.env`:
 
 ```env
-# Groq API Key (gratis desde console.groq.com)
-GROQ_API_KEY=tu_api_key_aqui
-
-# JWT Secret (cambiá por algo aleatorio)
-SECRET_KEY=tu_secret_key_muy_larga_y_aleatoria
-
-# Email para recuperación de contraseña (opcional)
-MAIL_USERNAME=tu_email@gmail.com
-MAIL_PASSWORD=tu_app_password
-MAIL_FROM=tu_email@gmail.com
-
-# JSearch API Key para búsqueda de empleos (opcional)
-JSEARCH_API_KEY=tu_jsearch_key
+GROQ_API_KEY=gsk_tu_key_aqui
+SECRET_KEY=tu_secret_random
 ```
 
-### 5. Obtener API Key de Groq (GRATIS)
-
-1. Andá a [console.groq.com](https://console.groq.com)
-2. Creá una cuenta gratis
-3. Andá a "API Keys" → "Create API Key"
-4. Copiá tu key (empieza con `gsk_...`)
-5. Pegala en el archivo `.env`
-
-### 6. Ejecutar
-
 ```bash
+# Ejecutar
 uvicorn api:app --reload --port 8000
 ```
 
-Abrí **http://localhost:8000** en tu navegador 🚀
+Abrí **http://localhost:8000** 🚀
 
 ---
 
-## � Estructura del Proyecto
+## Costo Total
 
-```
-CareerAI/
-├── api.py                        # 🚀 Backend FastAPI (22 endpoints)
-├── requirements.txt              # 📦 Dependencias Python
-├── .env                          # 🔐 Variables de entorno (NO se sube a Git)
-├── README.md                     # 📖 Este archivo
-│
-├── frontend/                     # 🎨 UI tipo Claude
-│   ├── index.html                # Estructura HTML
-│   ├── app.js                    # Lógica completa (1,842 líneas)
-│   ├── styles.css                # Sistema de diseño (1,695 líneas)
-│   ├── icon-pro.png              # 🧠 Icono CareerAI Pro
-│   ├── icon-flash.png            # ⚡ Icono CareerAI Flash
-│   └── favicon.png               # Favicon
-│
-├── src/                          # 🧠 Core Engine
-│   ├── career_assistant.py       # Motor IA con 5 modos especializados
-│   ├── rag_engine.py             # RAG v2.0 (Hybrid + Reranking + RRF)
-│   ├── document_processor.py     # Procesador multi-formato + Vision AI
-│   ├── profile_extractor.py      # Extractor de perfil para dashboard
-│   ├── exporter.py               # Exportación PDF/DOCX/HTML/TXT
-│   ├── auth.py                   # Autenticación (JWT + Google OAuth)
-│   └── models.py                 # Modelos SQLAlchemy (User, Conversation)
-│
-└── data/                         # 💾 Datos (no se suben a Git)
-    ├── uploads/                  # Documentos subidos
-    └── vectordb/                 # ChromaDB persistencia
-```
+| Componente | Costo |
+|-----------|-------|
+| Groq API (Llama 3.3 70B) | ✅ Gratis |
+| BGE-M3 Embeddings | ✅ Gratis (corre local) |
+| BGE-Reranker-v2-m3 | ✅ Gratis (corre local) |
+| ChromaDB + BM25 | ✅ Gratis (corre local) |
+| HuggingFace Spaces (hosting) | ✅ Gratis |
+| **Total** | **$0** |
 
 ---
 
-## 🆓 ¿Por qué es 100% Gratis? / Why is it 100% Free?
-
-| Component | Cost |
-|-----------|------|
-| Groq API (Llama 3.3 70B) | ✅ Free (generous rate limits) |
-| BGE-M3 Embeddings | ✅ Free (runs locally) |
-| BGE-Reranker-v2-m3 | ✅ Free (runs locally) |
-| BM25 Keyword Search | ✅ Free (runs locally) |
-| ChromaDB Vector Store | ✅ Free (runs locally) |
-| FastAPI + Frontend | ✅ Free (open source) |
-| SQLite Database | ✅ Free (runs locally) |
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! If you want to improve CareerAI:
+## Contributing
 
 1. Fork the repository
-2. Create a branch: `git checkout -b feature/new-feature`
-3. Commit: `git commit -m "Add new feature"`
-4. Push: `git push origin feature/new-feature`
+2. Create a branch: `git checkout -b feature/your-feature`
+3. Commit: `git commit -m "Add your feature"`
+4. Push: `git push origin feature/your-feature`
 5. Open a Pull Request
 
 ---
 
-## 📄 License
+## License
 
-This project is licensed under the MIT License. Feel free to use, modify, and distribute it.
+MIT License — free to use, modify, and distribute.
 
 ---
-
-## 👨‍💻 Author / Autor
 
 <p align="center">
   <strong>Nicolás Medina</strong>
@@ -465,7 +436,7 @@ This project is licensed under the MIT License. Feel free to use, modify, and di
   </a>
   &nbsp;
   <a href="mailto:nicolasmedinae06@gmail.com">
-    <img src="https://img.shields.io/badge/Email-nicolasmedinae06@gmail.com-EA4335?logo=gmail&logoColor=white&style=for-the-badge" alt="Email">
+    <img src="https://img.shields.io/badge/Email-Contact-EA4335?logo=gmail&logoColor=white&style=for-the-badge" alt="Email">
   </a>
 </p>
 
@@ -473,12 +444,12 @@ This project is licensed under the MIT License. Feel free to use, modify, and di
 
 <p align="center">
   <em>If this project helped you, consider giving it a ⭐ on GitHub!</em><br>
-  <em>Si este proyecto te ayudó, ¡considerá darle una ⭐ en GitHub!</em>
+  <em>Si te sirvió, ¡dejale una ⭐ en GitHub!</em>
 </p>
 
 <br>
 
 <p align="center">
-  <strong>CareerAI v1.0</strong> — FastAPI + RAG v2.0 + Groq<br>
+  <strong>CareerAI v2.0</strong> — Full-Stack RAG + Groq + Docker<br>
   <em>Made with ❤️ in Argentina 🇦🇷</em>
 </p>
