@@ -1,3 +1,13 @@
+---
+title: CareerAI
+emoji: 🚀
+colorFrom: green
+colorTo: blue
+sdk: docker
+app_port: 7860
+pinned: true
+---
+
 <p align="center">
   <img src="https://i.postimg.cc/2yY6ztpG/ideogram-v3-0-Logo-minimalista-y-moderno-para-Career-AI-una-app-de-asistente-IA-para-carreras-p-0-(1.png" alt="CareerAI Logo" width="420">
 </p>
