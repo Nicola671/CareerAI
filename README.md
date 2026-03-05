@@ -15,12 +15,18 @@ pinned: true
 <h1 align="center">CareerAI</h1>
 
 <p align="center">
-  <strong>AI-Powered Career Assistant | Asistente de Carrera con IA</strong><br>
+  <strong>AI-Powered Career Assistant with Hybrid RAG Pipeline</strong><br>
   <em>Upload your CV → Get personalized career advice → Land your next job</em>
 </p>
 
 <p align="center">
-  <a href="https://careerai-app.hf.space"><img src="https://img.shields.io/badge/🚀_Live_Demo-careerai--app.hf.space-00C853?style=for-the-badge" alt="Live Demo"></a>
+  <a href="https://careerai-app.hf.space">
+    <img src="https://img.shields.io/badge/🚀_TRY_LIVE_DEMO-careerai--app.hf.space-00C853?style=for-the-badge&logoColor=white" alt="Live Demo">
+  </a>
+  &nbsp;
+  <a href="https://github.com/Nicola671/CareerAI">
+    <img src="https://img.shields.io/badge/⭐_Star_on_GitHub-Nicola671%2FCareerAI-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
+  </a>
 </p>
 
 <p align="center">
@@ -30,7 +36,8 @@ pinned: true
   <img src="https://img.shields.io/badge/RAG-Hybrid_Search-8B5CF6" alt="RAG">
   <img src="https://img.shields.io/badge/ChromaDB-Vector_Store-7C3AED" alt="ChromaDB">
   <img src="https://img.shields.io/badge/Docker-Deployed-2496ED?logo=docker&logoColor=white" alt="Docker">
-  <img src="https://img.shields.io/badge/License-MIT-EAB308" alt="License">
+  <img src="https://img.shields.io/github/license/Nicola671/CareerAI?color=EAB308" alt="License">
+  <img src="https://img.shields.io/github/stars/Nicola671/CareerAI?style=social" alt="Stars">
 </p>
 
 <p align="center">
@@ -39,15 +46,72 @@ pinned: true
 
 ---
 
+## 📸 Screenshots
+
+<p align="center">
+  <img src="https://i.postimg.cc/RhQtrcLs/foto-del-la-app-Career-AI.png" alt="CareerAI — Main Interface" width="800">
+</p>
+<p align="center"><em>Premium dark-mode interface with real-time AI streaming</em></p>
+
+<br>
+
+<table>
+  <tr>
+    <td width="50%">
+      <img src="https://i.postimg.cc/yNcYr7PZ/image.png" alt="AI Conversation" width="100%">
+      <p align="center"><em>💬 AI Chat — Context-aware responses from your CV</em></p>
+    </td>
+    <td width="50%">
+      <img src="https://i.postimg.cc/6qmXpPcW/image.png" alt="Job Search" width="100%">
+      <p align="center"><em>💼 Job Search — Live listings from LinkedIn, Indeed & more</em></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <img src="https://i.postimg.cc/Sx5JvTb5/image.png" alt="Dashboard Analytics" width="100%">
+      <p align="center"><em>📊 Dashboard — Skills analysis & professional insights</em></p>
+    </td>
+    <td width="50%">
+      <img src="https://i.postimg.cc/85dcsTfz/image.png" alt="Dashboard Charts" width="100%">
+      <p align="center"><em>📈 Analytics — Radar charts & career timeline</em></p>
+    </td>
+  </tr>
+</table>
+
+---
+
 # 🇺🇸 English
 
 ## What is CareerAI?
 
-**CareerAI** is a full-stack AI web application that analyzes your professional documents (CV, cover letters, certificates) using Retrieval-Augmented Generation (RAG) to deliver accurate, context-aware career guidance — with zero hallucinations.
+**CareerAI** is a full-stack AI web application that analyzes your professional documents (CV, cover letters, certificates) using a **5-stage hybrid RAG pipeline** to deliver accurate, context-aware career guidance — with zero hallucinations.
 
-Built from scratch with a **5-stage hybrid search pipeline**, real-time streaming, and a premium Claude-style interface.
+Every response is grounded in **your actual documents**, not generic advice.
 
-> **Try it now →** [careerai-app.hf.space](https://careerai-app.hf.space)
+> **🚀 Try it now →** [careerai-app.hf.space](https://careerai-app.hf.space)
+
+---
+
+## ⚡ Quick Start (3 minutes)
+
+```bash
+# 1. Clone & setup
+git clone https://github.com/Nicola671/CareerAI.git
+cd CareerAI
+python -m venv venv && venv\Scripts\activate
+pip install -r requirements.txt
+
+# 2. Configure (create .env file)
+echo GROQ_API_KEY=your_key_here > .env
+echo SECRET_KEY=your_random_secret >> .env
+
+# 3. Run
+uvicorn api:app --reload --port 8000
+```
+
+Open **http://localhost:8000** → Upload your CV → Start chatting 🚀
+
+> 💡 Get your free Groq API key at [console.groq.com](https://console.groq.com)
 
 ---
 
@@ -137,73 +201,21 @@ CareerAI implements a **5-stage hybrid retrieval pipeline** that combines semant
 
 ---
 
-## Quick Start
-
-### Prerequisites
-
-- Python 3.10+
-- [Groq API Key](https://console.groq.com) (free)
-
-### Setup
-
-```bash
-# Clone
-git clone https://github.com/Nicola671/CareerAI.git
-cd CareerAI
-
-# Virtual environment
-python -m venv venv
-venv\Scripts\activate        # Windows
-# source venv/bin/activate   # Mac/Linux
-
-# Dependencies
-pip install -r requirements.txt
-```
-
-### Configure
-
-Create a `.env` file in the project root:
-
-```env
-# Required
-GROQ_API_KEY=gsk_your_key_here
-SECRET_KEY=your_random_secret_key
-
-# Optional
-JSEARCH_API_KEY=your_jsearch_key
-MAIL_USERNAME=your_email@gmail.com
-MAIL_PASSWORD=your_app_password
-MAIL_FROM=your_email@gmail.com
-```
-
-### Run
-
-```bash
-uvicorn api:app --reload --port 8000
-```
-
-Open **http://localhost:8000** → ready to go.
-
----
-
 ## Deployment
 
-CareerAI is deployed on **HuggingFace Spaces** using Docker:
+### HuggingFace Spaces (recommended — free)
 
 ```bash
-# Add HF remote
 git remote add hf https://huggingface.co/spaces/CareerAI/app
-
-# Deploy (push to HF)
 git push hf main --force
 ```
 
-Set environment variables as **Secrets** in HF Space Settings.
+Set these as **Secrets** in HF Space → Settings:
 
-| Env Variable | Required | Description |
-|-------------|----------|-------------|
-| `GROQ_API_KEY` | ✅ | LLM API key from console.groq.com |
-| `SECRET_KEY` | ✅ | JWT signing key |
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `GROQ_API_KEY` | ✅ | LLM API key ([console.groq.com](https://console.groq.com)) |
+| `SECRET_KEY` | ✅ | JWT signing key (random string) |
 | `EMBEDDING_MODEL` | ❌ | Override embedding model (default: `bge-m3`) |
 | `ENABLE_RERANKING` | ❌ | Enable/disable reranker (default: `true`) |
 | `JSEARCH_API_KEY` | ❌ | Job search API |
@@ -211,63 +223,69 @@ Set environment variables as **Secrets** in HF Space Settings.
 | `MAIL_PASSWORD` | ❌ | Gmail app password |
 | `MAIL_FROM` | ❌ | Sender email address |
 
+### Docker (any platform)
+
+```bash
+docker build -t careerai .
+docker run -p 7860:7860 --env-file .env careerai
+```
+
 ---
 
 ## Project Structure
 
 ```
 CareerAI/
-├── api.py                        # FastAPI application (22 endpoints)
-├── Dockerfile                    # Production Docker image
-├── requirements.txt              # Python dependencies
-├── render.yaml                   # Render deployment config
-├── .env                          # Environment variables (git-ignored)
+├── api.py                     # FastAPI application (22 endpoints)
+├── Dockerfile                 # Production Docker image
+├── requirements.txt           # Python dependencies
+├── .env                       # Environment variables (git-ignored)
 │
-├── frontend/                     # Client-side application
-│   ├── index.html                # HTML structure
-│   ├── app.js                    # Application logic (1,842 lines)
-│   ├── styles.css                # Design system (1,695 lines)
-│   └── *.png                     # Icons and favicon
+├── frontend/                  # Client-side application
+│   ├── index.html             # HTML structure
+│   ├── app.js                 # Application logic (1,842 lines)
+│   ├── styles.css             # Design system (1,695 lines)
+│   └── *.png                  # Icons and favicon
 │
-├── src/                          # Core modules
-│   ├── rag_engine.py             # RAG v2.0 — Hybrid Search + Reranking
-│   ├── career_assistant.py       # LLM orchestration — 5 specialized modes
-│   ├── document_processor.py     # Multi-format extraction + Vision AI
-│   ├── profile_extractor.py      # Profile analysis for dashboard
-│   ├── exporter.py               # PDF / DOCX / HTML / TXT export
-│   ├── auth.py                   # JWT + Google OAuth + email recovery
-│   └── models.py                 # SQLAlchemy ORM (User, Conversation)
+├── src/                       # Core modules
+│   ├── rag_engine.py          # Hybrid RAG — Vector + BM25 + RRF + Reranking
+│   ├── career_assistant.py    # LLM orchestration — 5 specialized modes
+│   ├── document_processor.py  # Multi-format extraction + Vision AI
+│   ├── profile_extractor.py   # Profile analysis engine for dashboard
+│   ├── exporter.py            # PDF / DOCX / HTML / TXT export engine
+│   ├── auth.py                # JWT + Google OAuth + email recovery
+│   └── models.py              # SQLAlchemy ORM (User, Conversation)
 │
-└── data/                         # Runtime data (git-ignored)
-    ├── uploads/                  # User documents
-    └── vectordb/                 # ChromaDB persistence
+└── data/                      # Runtime data (git-ignored)
+    ├── uploads/               # User documents
+    └── vectordb/              # ChromaDB vector persistence
 ```
 
 ---
 
 ## API Reference
 
-**22 endpoints** — full Swagger documentation at `/docs`
+**22 endpoints** — interactive documentation at [`/docs`](https://careerai-app.hf.space/docs)
 
 | Group | Method | Endpoint | Description |
 |-------|--------|----------|-------------|
 | Status | `GET` | `/api/status` | Health check + system info |
 | Config | `POST` | `/api/config` | Configure API key and model |
-| Config | `POST` | `/api/config/rag` | Configure RAG settings |
+| Config | `POST` | `/api/config/rag` | Configure RAG pipeline settings |
 | Chat | `POST` | `/api/chat` | Single-response chat |
 | Chat | `POST` | `/api/chat/stream` | SSE streaming chat |
-| Documents | `POST` | `/api/documents/upload` | Upload and index document |
+| Documents | `POST` | `/api/documents/upload` | Upload & index document |
 | Documents | `GET` | `/api/documents` | List indexed documents |
-| Documents | `DELETE` | `/api/documents/{file}` | Remove document |
+| Documents | `DELETE` | `/api/documents/{file}` | Remove document from index |
 | Export | `POST` | `/api/export` | Export message to PDF/DOCX/HTML/TXT |
 | Export | `POST` | `/api/export/conversation` | Export full conversation |
-| Jobs | `GET` | `/api/jobs` | Search job listings |
-| Dashboard | `GET` | `/api/dashboard` | AI profile analysis |
+| Jobs | `GET` | `/api/jobs` | Search live job listings |
+| Dashboard | `GET` | `/api/dashboard` | AI-powered profile analysis |
 | Auth | `POST` | `/api/auth/register` | User registration |
-| Auth | `POST` | `/api/auth/login` | User login |
-| Auth | `GET` | `/api/auth/me` | Current user info |
-| Auth | `POST` | `/api/auth/me` | Update profile |
-| Auth | `POST` | `/api/auth/forgot-password` | Request password reset |
+| Auth | `POST` | `/api/auth/login` | User login (JWT) |
+| Auth | `GET` | `/api/auth/me` | Get current user profile |
+| Auth | `POST` | `/api/auth/me` | Update user profile |
+| Auth | `POST` | `/api/auth/forgot-password` | Request password reset code |
 | Auth | `POST` | `/api/auth/reset-password` | Reset password with code |
 | Auth | `POST` | `/api/auth/google` | Google OAuth login |
 | Conversations | `GET` | `/api/conversations` | List saved conversations |
@@ -291,28 +309,85 @@ CareerAI/
 
 ---
 
+## 🗺️ Roadmap
+
+- [x] Hybrid RAG pipeline (Vector + BM25 + RRF + Reranking)
+- [x] Real-time SSE streaming
+- [x] Multi-format document processing with Vision AI
+- [x] Premium export engine (PDF, DOCX, HTML, TXT)
+- [x] Full authentication system (JWT + Google OAuth)
+- [x] AI-powered dashboard with analytics
+- [x] Job search integration (JSearch API)
+- [x] Docker deployment on HuggingFace Spaces
+- [ ] Multi-language UI (EN / ES / PT)
+- [ ] Resume builder with AI suggestions
+- [ ] Interview recording with real-time feedback
+- [ ] LinkedIn profile import
+- [ ] Custom domain support
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Whether it's bug fixes, new features, or documentation improvements.
+
+1. **Fork** the repository
+2. **Create** a branch: `git checkout -b feature/your-feature`
+3. **Commit** your changes: `git commit -m "Add your feature"`
+4. **Push** to the branch: `git push origin feature/your-feature`
+5. **Open** a Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — free to use, modify, and distribute.
+
+---
+
+## 💰 Cost
+
+| Component | Cost |
+|-----------|------|
+| Groq API (Llama 3.3 70B) | ✅ Free |
+| BGE-M3 Embeddings | ✅ Free (runs locally) |
+| BGE-Reranker-v2-m3 | ✅ Free (runs locally) |
+| ChromaDB + BM25 | ✅ Free (runs locally) |
+| HuggingFace Spaces | ✅ Free (16 GB RAM) |
+| **Total** | **$0** |
+
+---
+
 ---
 
 # 🇦🇷 Español
 
 ## ¿Qué es CareerAI?
 
-**CareerAI** es una aplicación web full-stack que analiza tus documentos profesionales (CV, cartas, certificados) usando Retrieval-Augmented Generation (RAG) para darte asesoramiento preciso y personalizado — sin alucinaciones.
+**CareerAI** es una aplicación web full-stack que analiza tus documentos profesionales (CV, cartas, certificados) usando un **pipeline RAG híbrido de 5 etapas** para darte asesoramiento preciso y personalizado — sin alucinaciones.
 
-Construida desde cero con un **pipeline de búsqueda híbrida de 5 etapas**, streaming en tiempo real, y una interfaz premium estilo Claude.
+Cada respuesta está basada en **tus documentos reales**, no en consejos genéricos.
 
-> **Probalo ahora →** [careerai-app.hf.space](https://careerai-app.hf.space)
+> **🚀 Probalo ahora →** [careerai-app.hf.space](https://careerai-app.hf.space)
+
+---
+
+## ⚡ Inicio Rápido (3 minutos)
+
+```bash
+git clone https://github.com/Nicola671/CareerAI.git
+cd CareerAI
+python -m venv venv && venv\Scripts\activate
+pip install -r requirements.txt
+echo GROQ_API_KEY=tu_key > .env
+uvicorn api:app --reload --port 8000
+```
+
+Abrí **http://localhost:8000** → Subí tu CV → Empezá a chatear 🚀
 
 ---
 
 ## Funcionalidades
-
-### Modelos de IA
-
-| Modelo | Motor | Uso |
-|--------|-------|-----|
-| 🧠 **CareerAI Pro** | Llama 3.3 70B | Análisis profundo, respuestas detalladas |
-| ⚡ **CareerAI Flash** | Llama 3.1 8B | Respuestas rápidas, feedback instantáneo |
 
 ### 5 Modos Especializados
 
@@ -324,18 +399,17 @@ Construida desde cero con un **pipeline de búsqueda híbrida de 5 etapas**, str
 | 📈 **Skills Gap** | Habilidades faltantes + roadmap de mejora |
 | 🎤 **Entrevista** | Simulación con preguntas técnicas y método STAR |
 
-### Capacidades de la Plataforma
+### Capacidades
 
 | Categoría | Características |
 |-----------|----------------|
-| **Procesamiento** | PDF, DOCX, TXT, JPG, PNG, WebP — incluyendo documentos escaneados con Vision AI |
+| **Procesamiento** | PDF, DOCX, TXT, JPG, PNG, WebP + Vision AI para documentos escaneados |
 | **Streaming** | Generación token-por-token con rendering markdown en vivo |
-| **Exportación** | PDF, DOCX, HTML, TXT profesional con nombres inteligentes |
+| **Exportación** | PDF, DOCX, HTML, TXT con formato profesional |
 | **Dashboard** | Gráfico radar de skills, timeline profesional, insights con IA |
-| **Autenticación** | JWT + BCrypt + Google OAuth + recuperación de contraseña |
-| **Búsqueda de Empleo** | LinkedIn, Indeed, Glassdoor en tiempo real vía JSearch API |
+| **Autenticación** | JWT + BCrypt + Google OAuth |
+| **Búsqueda** | LinkedIn, Indeed, Glassdoor en tiempo real vía JSearch API |
 | **Diseño** | UI premium dark-mode optimizada para desktop, tablet y móvil |
-| **Persistencia** | Conversaciones sincronizadas por usuario |
 
 ---
 
@@ -354,71 +428,11 @@ Construida desde cero con un **pipeline de búsqueda híbrida de 5 etapas**, str
      │     └── Combina y normaliza ambos resultados
      │
      ├── 4. Reranking (Cross-Encoder)
-     │     └── BGE-Reranker-v2-m3 (scoring de relevancia)
+     │     └── BGE-Reranker-v2-m3
      │
      └── 5. Generación LLM
-           └── Groq API + Llama 3.3 70B (streaming)
+           └── Groq + Llama 3.3 70B (streaming)
 ```
-
----
-
-## Instalación Local
-
-```bash
-# Clonar
-git clone https://github.com/Nicola671/CareerAI.git
-cd CareerAI
-
-# Entorno virtual
-python -m venv venv
-venv\Scripts\activate
-
-# Dependencias
-pip install -r requirements.txt
-```
-
-Creá un archivo `.env`:
-
-```env
-GROQ_API_KEY=gsk_tu_key_aqui
-SECRET_KEY=tu_secret_random
-```
-
-```bash
-# Ejecutar
-uvicorn api:app --reload --port 8000
-```
-
-Abrí **http://localhost:8000** 🚀
-
----
-
-## Costo Total
-
-| Componente | Costo |
-|-----------|-------|
-| Groq API (Llama 3.3 70B) | ✅ Gratis |
-| BGE-M3 Embeddings | ✅ Gratis (corre local) |
-| BGE-Reranker-v2-m3 | ✅ Gratis (corre local) |
-| ChromaDB + BM25 | ✅ Gratis (corre local) |
-| HuggingFace Spaces (hosting) | ✅ Gratis |
-| **Total** | **$0** |
-
----
-
-## Contributing
-
-1. Fork the repository
-2. Create a branch: `git checkout -b feature/your-feature`
-3. Commit: `git commit -m "Add your feature"`
-4. Push: `git push origin feature/your-feature`
-5. Open a Pull Request
-
----
-
-## License
-
-MIT License — free to use, modify, and distribute.
 
 ---
 
@@ -450,6 +464,6 @@ MIT License — free to use, modify, and distribute.
 <br>
 
 <p align="center">
-  <strong>CareerAI v2.0</strong> — Full-Stack RAG + Groq + Docker<br>
+  <strong>CareerAI v2.0</strong> — Full-Stack AI Career Assistant<br>
   <em>Made with ❤️ in Argentina 🇦🇷</em>
 </p>
