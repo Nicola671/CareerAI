@@ -247,7 +247,7 @@ class RAGEngine:
 
         self.embeddings = HuggingFaceEmbeddings(
             model_name=model_name,
-            model_kwargs={"device": "cpu"},
+            model_kwargs={"device": "cpu", "trust_remote_code": True},
             encode_kwargs={"normalize_embeddings": True},
         )
 

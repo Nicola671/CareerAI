@@ -1254,7 +1254,7 @@ function renderMessages() {
         </div>
     `;
         } else {
-            const modelIcon = state.currentModel === 'llama-3.1-8b-instant' ? '/static/icon-flash.png' : '/static/icon-pro.png';
+            const modelIcon = state.currentModel === 'llama-3.1-8b-instant' ? '/static/icon-flash.png' : 'https://i.postimg.cc/tJ32Jnph/image.png';
             const modelLabel = state.currentModel === 'llama-3.1-8b-instant' ? 'CareerAI Flash' : 'CareerAI Pro';
             return `
         <div class="message ai" data-index="${i}">
@@ -1302,7 +1302,7 @@ function showTypingIndicator() {
     const indicator = document.createElement('div');
     indicator.id = 'typingIndicator';
     indicator.className = 'message ai';
-    const modelIcon = state.currentModel === 'llama-3.1-8b-instant' ? '/static/icon-flash.png' : '/static/icon-pro.png';
+    const modelIcon = state.currentModel === 'llama-3.1-8b-instant' ? '/static/icon-flash.png' : 'https://i.postimg.cc/tJ32Jnph/image.png';
     const modelLabel = state.currentModel === 'llama-3.1-8b-instant' ? 'CareerAI Flash' : 'CareerAI Pro';
     indicator.innerHTML = `
         <div class="message-inner">
