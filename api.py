@@ -65,10 +65,8 @@ class AppState:
         self.api_key: str = ""
         self.model: str = "llama-3.3-70b-versatile"
         self.api_configured: bool = False
-        # Embedding model: configurable via env var for production (e.g. "gte-multilingual")
-        self.embedding_model: str = os.environ.get("EMBEDDING_MODEL", "bge-m3")
-        # Reranking: disable in production to save RAM (set ENABLE_RERANKING=false)
-        self.enable_reranking: bool = os.environ.get("ENABLE_RERANKING", "true").lower() in ("true", "1", "yes")
+        self.embedding_model: str = "bge-m3"
+        self.enable_reranking: bool = True
         self.enable_hybrid: bool = True
 
     def get_rag(self) -> RAGEngine:
@@ -210,6 +208,29 @@ async def serve_frontend():
     if os.path.exists(index_path):
         return FileResponse(index_path)
     return {"message": "CareerAI API is running. Frontend not found at /frontend/"}
+
+
+# ======================== ROUTES: PWA ========================
+@app.get("/manifest.json")
+async def serve_manifest():
+    """Serve PWA manifest from root (required by PWA spec)."""
+    manifest_path = os.path.join(frontend_dir, "manifest.json")
+    if os.path.exists(manifest_path):
+        return FileResponse(manifest_path, media_type="application/manifest+json")
+    raise HTTPException(status_code=404, detail="manifest.json not found")
+
+
+@app.get("/service-worker.js")
+async def serve_service_worker():
+    """Serve Service Worker from root (must be at root scope for PWA)."""
+    sw_path = os.path.join(frontend_dir, "service-worker.js")
+    if os.path.exists(sw_path):
+        return FileResponse(
+            sw_path,
+            media_type="application/javascript",
+            headers={"Service-Worker-Allowed": "/"},
+        )
+    raise HTTPException(status_code=404, detail="service-worker.js not found")
 
 
 # ======================== ROUTES: CONFIG ========================

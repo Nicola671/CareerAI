@@ -8,7 +8,14 @@
     <meta name="description"
         content="Analiza tu carrera con inteligencia artificial. Sube tu CV, ofertas o perfil de LinkedIn y conversa con un asistente AI entrenado sobre tu trayectoria profesional.">
     <link rel="icon" type="image/png" href="/static/favicon.png">
-    <link rel="apple-touch-icon" href="/static/favicon.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="/static/favicon.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#10b981">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="CareerAI">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="CareerAI">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -622,6 +629,122 @@
     </div>
 
     <script src="/static/app.js?v=2"></script>
+
+    <!-- PWA: Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
+                    .then((registration) => {
+                        console.log('✅ Service Worker registrado con scope:', registration.scope);
+                    })
+                    .catch((error) => {
+                        console.warn('⚠️ Service Worker no pudo registrarse:', error);
+                    });
+            });
+        }
+    </script>
+
+    <!-- PWA: Install Prompt -->
+    <script>
+        let deferredPrompt = null;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            showInstallBanner();
+        });
+
+        function showInstallBanner() {
+            // Verificar si ya fue descartado esta sesión
+            if (sessionStorage.getItem('pwa-install-dismissed')) return;
+
+            const banner = document.createElement('div');
+            banner.id = 'pwa-install-banner';
+            banner.innerHTML = `
+                <div style="
+                    position: fixed;
+                    bottom: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+                    color: white;
+                    padding: 14px 24px;
+                    border-radius: 16px;
+                    display: flex;
+                    align-items: center;
+                    gap: 14px;
+                    box-shadow: 0 8px 32px rgba(16, 185, 129, 0.35);
+                    z-index: 9999;
+                    font-family: 'Inter', sans-serif;
+                    font-size: 0.92rem;
+                    max-width: 420px;
+                    width: calc(100% - 40px);
+                    backdrop-filter: blur(10px);
+                    animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+                ">
+                    <span style="font-size: 1.6rem;">📱</span>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 600; margin-bottom: 2px;">Instalar CareerAI</div>
+                        <div style="font-size: 0.8rem; opacity: 0.9;">Accedé rápido desde tu pantalla de inicio</div>
+                    </div>
+                    <button onclick="installPWA()" style="
+                        background: white;
+                        color: #059669;
+                        border: none;
+                        padding: 8px 18px;
+                        border-radius: 10px;
+                        font-weight: 700;
+                        cursor: pointer;
+                        font-size: 0.85rem;
+                        white-space: nowrap;
+                    ">Instalar</button>
+                    <button onclick="dismissInstallBanner()" style="
+                        background: none;
+                        border: none;
+                        color: white;
+                        opacity: 0.7;
+                        cursor: pointer;
+                        font-size: 1.2rem;
+                        padding: 4px;
+                        line-height: 1;
+                    ">&times;</button>
+                </div>
+            `;
+            document.body.appendChild(banner);
+
+            // Auto-ocultar después de 15 segundos
+            setTimeout(() => {
+                const b = document.getElementById('pwa-install-banner');
+                if (b) b.remove();
+            }, 15000);
+        }
+
+        async function installPWA() {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log('PWA install outcome:', outcome);
+            deferredPrompt = null;
+            dismissInstallBanner();
+        }
+
+        function dismissInstallBanner() {
+            const banner = document.getElementById('pwa-install-banner');
+            if (banner) banner.remove();
+            sessionStorage.setItem('pwa-install-dismissed', 'true');
+        }
+
+        // Añadir animación CSS para el banner
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideUp {
+                from { transform: translateX(-50%) translateY(100px); opacity: 0; }
+                to { transform: translateX(-50%) translateY(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 
 </html>

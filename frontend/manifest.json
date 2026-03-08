@@ -1,0 +1,60 @@
+{
+    "name": "CareerAI — Asistente Inteligente de Carrera",
+    "short_name": "CareerAI",
+    "description": "Analiza tu carrera con inteligencia artificial. Sube tu CV, obtén asesoramiento profesional personalizado y consigue tu próximo trabajo.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0a0a0f",
+    "theme_color": "#10b981",
+    "orientation": "any",
+    "scope": "/",
+    "lang": "es",
+    "categories": [
+        "productivity",
+        "education",
+        "utilities"
+    ],
+    "icons": [
+        {
+            "src": "/static/favicon.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/static/favicon.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/static/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/static/favicon.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "CareerAI - Chat con IA"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Nuevo Chat",
+            "short_name": "Chat",
+            "description": "Iniciar una nueva conversación con CareerAI",
+            "url": "/",
+            "icons": [
+                {
+                    "src": "/static/favicon.png",
+                    "sizes": "512x512"
+                }
+            ]
+        }
+    ]
+}
