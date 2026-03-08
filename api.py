@@ -201,9 +201,9 @@ class ConversationExportRequest(BaseModel):
 
 
 # ======================== ROUTES: FRONTEND ========================
-@app.get("/")
+@app.api_route("/", methods=["GET", "HEAD"])
 async def serve_frontend():
-    """Serve the main frontend page."""
+    """Serve the main frontend page (GET + HEAD for HF health checks)."""
     index_path = os.path.join(frontend_dir, "index.html")
     if os.path.exists(index_path):
         return FileResponse(index_path)
