@@ -246,6 +246,48 @@
                     <span>Job Match</span>
                 </button>
             </div>
+
+            <!-- Download App Section -->
+            <div class="welcome-download-section">
+                <div class="download-header">
+                    <span class="download-label">Disponible como App</span>
+                    <h2 class="download-title">Lleva CareerAI en tu bolsillo</h2>
+                </div>
+                <div class="download-cards-container">
+                    <!-- Android Card -->
+                    <div class="download-card android">
+                        <div class="card-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                                <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                                <path d="M8 2h8"></path>
+                            </svg>
+                        </div>
+                        <div class="card-content">
+                            <h3>Android APK</h3>
+                            <p>Instala la app directamente y accede sin navegador.</p>
+                            <a href="#" class="download-action-btn" id="androidDownloadBtn"
+                                onclick="event.preventDefault(); showAndroidInfo();">Instalar ahora</a>
+                        </div>
+                    </div>
+                    <!-- iOS Card -->
+                    <div class="download-card ios">
+                        <div class="card-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 19V5m0 0l-7 7m7-7l7 7"></path>
+                                <rect x="4" y="14" width="16" height="6" rx="2"></rect>
+                            </svg>
+                        </div>
+                        <div class="card-content">
+                            <h3>iPhone / iOS</h3>
+                            <p>Añade CareerAI a tu inicio desde Safari (Gratis).</p>
+                            <button class="download-action-btn" onclick="showIosInstructions()">Ver pasos</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- ===== CHAT SCREEN ===== -->
@@ -744,6 +786,82 @@
             }
         `;
         document.head.appendChild(style);
+    </script>
+
+    <!-- ===== APP INSTALL MODALS ===== -->
+    <div class="upload-modal hidden" id="androidModal">
+        <div class="upload-modal-backdrop" onclick="document.getElementById('androidModal').classList.add('hidden')">
+        </div>
+        <div class="upload-modal-content" style="max-width: 440px;">
+            <div class="upload-modal-header">
+                <h3>📱 Instalar CareerAI en Android</h3>
+                <button class="upload-close"
+                    onclick="document.getElementById('androidModal').classList.add('hidden')">&times;</button>
+            </div>
+            <div class="upload-modal-body" style="text-align: center; padding: 20px;">
+                <div style="font-size: 3rem; margin-bottom: 16px;">🤖</div>
+                <p style="color: var(--text-primary); font-weight: 600; margin-bottom: 12px;">¡Es gratis y rápido!</p>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 24px; line-height: 1.5;">
+                    Para una mejor experiencia, instala la aplicación. Puedes descargar el APK directamente o usar la
+                    función "Instalar" del navegador si aparece el mensaje abajo.
+                </p>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <button class="config-btn" onclick="installPWA()"
+                        style="width: 100%; justify-content: center; background: var(--accent-primary); color: white;">⚡
+                        Instalar desde Navegador</button>
+                    <a href="https://github.com/Nicola671/CareerAI/releases" target="_blank" class="config-btn"
+                        style="width: 100%; justify-content: center; background: var(--bg-hover); color: var(--text-primary); border: 1px solid var(--border-medium); text-decoration: none;">📦
+                        Descargar APK (GitHub)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="upload-modal hidden" id="iosModal">
+        <div class="upload-modal-backdrop" onclick="document.getElementById('iosModal').classList.add('hidden')"></div>
+        <div class="upload-modal-content" style="max-width: 440px;">
+            <div class="upload-modal-header">
+                <h3>🍎 Instalar en iPhone / iPad</h3>
+                <button class="upload-close"
+                    onclick="document.getElementById('iosModal').classList.add('hidden')">&times;</button>
+            </div>
+            <div class="upload-modal-body" style="padding: 20px;">
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px;">
+                    Apple no permite la descarga directa de APKs, pero puedes instalar CareerAI como una app nativa
+                    totalmente gratis:
+                </p>
+                <div style="display: flex; flex-direction: column; gap: 16px;">
+                    <div style="display: flex; gap: 14px; align-items: flex-start;">
+                        <span
+                            style="background: var(--accent-primary); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; flex-shrink: 0;">1</span>
+                        <p style="font-size: 0.9rem;">Abre esta página en <strong>Safari</strong>.</p>
+                    </div>
+                    <div style="display: flex; gap: 14px; align-items: flex-start;">
+                        <span
+                            style="background: var(--accent-primary); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; flex-shrink: 0;">2</span>
+                        <p style="font-size: 0.9rem;">Pulsa el botón <strong>Compartir</strong> (el cuadrado con una
+                            flecha hacia arriba al centro abajo).</p>
+                    </div>
+                    <div style="display: flex; gap: 14px; align-items: flex-start;">
+                        <span
+                            style="background: var(--accent-primary); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; flex-shrink: 0;">3</span>
+                        <p style="font-size: 0.9rem;">Busca y pulsa en la opción <strong>"Añadir a pantalla de
+                                inicio"</strong>.</p>
+                    </div>
+                </div>
+                <button class="config-btn" onclick="document.getElementById('iosModal').classList.add('hidden')"
+                    style="width: 100%; margin-top: 24px; justify-content: center;">Entendido</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showAndroidInfo() {
+            document.getElementById('androidModal').classList.remove('hidden');
+        }
+        function showIosInstructions() {
+            document.getElementById('iosModal').classList.remove('hidden');
+        }
     </script>
 </body>
 

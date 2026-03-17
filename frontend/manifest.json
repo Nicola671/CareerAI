@@ -36,11 +36,18 @@
     ],
     "screenshots": [
         {
-            "src": "/static/favicon.png",
-            "sizes": "512x512",
+            "src": "https://i.postimg.cc/RhQtrcLs/foto-del-la-app-Career-AI.png",
+            "sizes": "1280x720",
             "type": "image/png",
             "form_factor": "wide",
-            "label": "CareerAI - Chat con IA"
+            "label": "CareerAI — Dashboard Principal"
+        },
+        {
+            "src": "https://i.postimg.cc/yNcYr7PZ/image.png",
+            "sizes": "360x780",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "CareerAI — Chat Móvil"
         }
     ],
     "shortcuts": [
