@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareerAI — Video Promo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════ RESET ═══════════════ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --bg:#080810;--surface:#10101c;--border:#1a1a2e;
+  --neon-cyan:#00f5ff;--neon-purple:#a855f7;
+  --neon-green:#22c55e;--neon-amber:#f59e0b;--neon-pink:#ec4899;
+  --red:#ef4444;
+  --text:#e2e8f0;--muted:#64748b;--white:#ffffff;
+  --ck:#569cd6;--cf:#dcdcaa;--cs:#ce9178;--cc:#6a9955;
+  --ccl:#4ec9b0;--cn:#b5cea8;--cp:#9cdcfe;--cdc:#c586c0;
+}
+
+html,body{width:100%;height:100%;background:#000;
+  display:flex;align-items:center;justify-content:center;overflow:hidden}
+
+/* ═══════════════ PHONE FRAME 9:16 ═══════════════ */
+#stage{
+  position:relative;width:390px;height:693px;
+  background:var(--bg);border-radius:40px;overflow:hidden;
+  box-shadow:0 0 80px rgba(0,245,255,.15),0 0 0 1px #222;
+  font-family:'Inter',sans-serif;
+}
+#stage::after{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:100;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+}
+
+/* ═══════════════ SCENES ═══════════════ */
+.scene{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;padding:26px 22px;
+  opacity:0;transform:scale(1.04);pointer-events:none;
+  transition:opacity .45s cubic-bezier(.4,0,.2,1),transform .45s cubic-bezier(.4,0,.2,1);
+}
+.scene.active{opacity:1;transform:scale(1);pointer-events:auto}
+.scene.exit{opacity:0;transform:scale(.96);transition:opacity .3s ease,transform .3s ease}
+
+/* ═══════════════ BG LAYERS ═══════════════ */
+.bg-grid{
+  position:absolute;inset:0;
+  background:linear-gradient(var(--border) 1px,transparent 1px),
+             linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:40px 40px;opacity:.22;
+}
+.bg-r{position:absolute;inset:0;background:radial-gradient(ellipse 65% 55% at 50% 40%,rgba(168,85,247,.13) 0%,transparent 70%)}
+.bg-rc{position:absolute;inset:0;background:radial-gradient(ellipse 65% 55% at 50% 40%,rgba(0,245,255,.11) 0%,transparent 70%)}
+.bg-rr{position:absolute;inset:0;background:radial-gradient(ellipse 65% 55% at 50% 40%,rgba(239,68,68,.09) 0%,transparent 70%)}
+.bg-rb{position:absolute;inset:0;background:radial-gradient(ellipse 65% 55% at 50% 40%,rgba(59,130,246,.12) 0%,transparent 70%)}
+
+/* ═══════════════ PILLS ═══════════════ */
+.pill{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:4px 12px;border-radius:99px;font-size:11px;font-weight:600;border:1px solid;margin:3px;
+}
+.pill-c{background:rgba(0,245,255,.07);border-color:rgba(0,245,255,.3);color:var(--neon-cyan)}
+.pill-p{background:rgba(168,85,247,.07);border-color:rgba(168,85,247,.3);color:var(--neon-purple)}
+.pill-g{background:rgba(34,197,94,.07);border-color:rgba(34,197,94,.3);color:var(--neon-green)}
+.pill-a{background:rgba(245,158,11,.07);border-color:rgba(245,158,11,.3);color:var(--neon-amber)}
+.pill-pk{background:rgba(236,72,153,.07);border-color:rgba(236,72,153,.3);color:var(--neon-pink)}
+.pill-r{background:rgba(239,68,68,.07);border-color:rgba(239,68,68,.3);color:var(--red)}
+.tech-row{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin-top:11px}
+
+/* ═══════════════ NARRATIVE TEXT SYSTEM ═══════════════ */
+.narr-line{
+  display:block;font-weight:900;line-height:1.2;
+  opacity:0;transform:translateY(12px);
+  transition:opacity .5s cubic-bezier(.4,0,.2,1),transform .5s cubic-bezier(.4,0,.2,1);
+}
+.narr-line.in{opacity:1;transform:translateY(0)}
+
+/* Glitch */
+.glitch{position:relative;display:inline-block}
+.glitch::before,.glitch::after{
+  content:attr(data-text);position:absolute;top:0;left:0;width:100%;
+}
+.glitch::before{color:var(--neon-cyan);animation:gb .11s steps(1) infinite alternate;
+  clip-path:polygon(0 0,100% 0,100% 45%,0 45%);opacity:.7}
+.glitch::after{color:var(--neon-pink);animation:ga .13s steps(1) infinite alternate;
+  clip-path:polygon(0 55%,100% 55%,100% 100%,0 100%);opacity:.6}
+@keyframes gb{0%{transform:translate(-2px,0)}100%{transform:translate(2px,0)}}
+@keyframes ga{0%{transform:translate(2px,0)}100%{transform:translate(-2px,0)}}
+
+/* Blink cursor */
+.tw-cursor{
+  display:inline-block;width:2px;height:1em;background:var(--neon-cyan);
+  vertical-align:middle;margin-left:2px;animation:blink .65s step-end infinite;
+}
+@keyframes blink{50%{opacity:0}}
+
+/* Logo badge */
+.logo-badge{
+  display:flex;align-items:center;gap:9px;padding:7px 16px;
+  background:rgba(0,245,255,.05);border:1px solid rgba(0,245,255,.22);
+  border-radius:99px;margin-bottom:14px;
+}
+.logo-img{width:26px;height:26px;border-radius:6px;object-fit:cover}
+.logo-text{font-size:13px;font-weight:700;color:var(--neon-cyan);letter-spacing:.06em}
+
+/* ═══════════════ SCENE 1 — PROBLEMA ═══════════════ */
+.chatgpt-badge{
+  display:flex;align-items:center;gap:8px;padding:6px 14px;
+  background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.3);
+  border-radius:99px;margin-bottom:16px;
+}
+.chatgpt-dot{width:8px;height:8px;border-radius:50%;background:var(--red)}
+.chatgpt-label{font-size:11px;font-weight:700;color:var(--red);letter-spacing:.06em}
+
+/* "Inventando" animation box */
+.halluc-box{
+  width:100%;margin-top:16px;
+  background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.25);
+  border-radius:14px;padding:14px 16px;
+  opacity:0;transform:translateY(10px);
+  transition:opacity .5s ease,transform .5s ease;
+}
+.halluc-box.in{opacity:1;transform:translateY(0)}
+.halluc-title{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--red);margin-bottom:8px}
+.halluc-item{
+  display:flex;align-items:flex-start;gap:7px;
+  font-size:10.5px;color:var(--text);line-height:1.45;margin-bottom:6px;
+}
+.halluc-item:last-child{margin-bottom:0}
+.halluc-x{color:var(--red);font-weight:900;font-size:13px;flex-shrink:0;margin-top:1px}
+
+/* ═══════════════ SCENE 2 — SOLUCIÓN ═══════════════ */
+.mock-app{
+  width:100%;background:var(--surface);
+  border:1px solid var(--border);border-radius:16px;overflow:hidden;
+}
+.mock-topbar{
+  display:flex;align-items:center;gap:7px;padding:9px 13px;
+  background:rgba(255,255,255,.025);border-bottom:1px solid var(--border);
+}
+.mock-dot{width:9px;height:9px;border-radius:50%}
+.mock-url{flex:1;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)}
+.mock-body{padding:12px}
+
+.upload-zone{
+  border:2px dashed rgba(0,245,255,.28);border-radius:11px;
+  padding:14px;text-align:center;background:rgba(0,245,255,.025);
+  margin-bottom:10px;transition:border-color .5s,background .5s;
+}
+.upload-icon{font-size:22px;margin-bottom:3px}
+.upload-label{font-size:10.5px;font-weight:700;color:var(--neon-cyan)}
+.upload-sub{font-size:9px;color:var(--muted);margin-top:2px}
+.upload-fname{font-size:9.5px;font-family:'JetBrains Mono',monospace;color:var(--neon-green);margin-top:3px;word-break:break-all}
+.upload-progress{height:3px;background:var(--border);border-radius:99px;margin-top:8px;overflow:hidden}
+.upload-bar{height:100%;background:linear-gradient(90deg,var(--neon-cyan),var(--neon-purple));border-radius:99px;width:0%;transition:width 2s ease}
+
+.chat-bubble{display:flex;gap:8px;align-items:flex-start}
+.chat-avatar{
+  width:26px;height:26px;border-radius:7px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--neon-purple),var(--neon-cyan));
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;color:#fff;
+}
+.chat-text{
+  background:rgba(168,85,247,.09);border:1px solid rgba(168,85,247,.22);
+  border-radius:0 11px 11px 11px;padding:9px 11px;
+  font-size:10px;color:var(--text);line-height:1.55;
+}
+.streaming-text span{opacity:0;transition:opacity .04s}
+
+/* ═══════════════ SCENE 3 — BRIDGE ═══════════════ */
+.bridge-q{
+  font-size:28px;font-weight:900;line-height:1.15;text-align:center;color:var(--white);
+  opacity:0;transform:translateY(14px);
+  transition:opacity .6s cubic-bezier(.4,0,.2,1),transform .6s cubic-bezier(.4,0,.2,1);
+}
+.bridge-q.in{opacity:1;transform:translateY(0)}
+.bridge-q .hl{color:var(--neon-cyan)}
+.bridge-sub{
+  font-size:13px;font-weight:600;color:var(--muted);margin-top:12px;text-align:center;
+  opacity:0;transition:opacity .5s ease .4s;
+}
+.bridge-sub.in{opacity:1}
+.bridge-arrow{
+  font-size:36px;margin-top:16px;
+  opacity:0;transform:translateY(8px);
+  transition:opacity .5s ease .8s,transform .5s ease .8s;
+}
+.bridge-arrow.in{opacity:1;transform:translateY(0)}
+
+/* ═══════════════ SCENE 4 — RAG PIPELINE ═══════════════ */
+.rag-query{
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  padding:8px 12px;background:rgba(0,245,255,.05);
+  border:1px solid rgba(0,245,255,.28);border-radius:10px;
+  font-size:10px;font-weight:600;color:var(--neon-cyan);margin-bottom:10px;
+}
+.rag-steps{display:flex;flex-direction:column;gap:5px;width:100%}
+.rag-step{
+  display:flex;align-items:center;gap:9px;padding:9px 12px;
+  background:var(--surface);border:1px solid var(--border);border-radius:11px;
+  opacity:0;transform:translateX(-14px);
+  transition:opacity .3s ease,transform .3s ease,border-color .3s ease,box-shadow .3s ease;
+}
+.rag-step.show{opacity:1;transform:translateX(0)}
+.rag-step.active-step{border-color:var(--neon-cyan);box-shadow:0 0 16px rgba(0,245,255,.18)}
+.rag-step-num{
+  width:22px;height:22px;border-radius:7px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;
+}
+.rag-step-info{flex:1}
+.rag-step-name{font-size:10.5px;font-weight:700;color:var(--white)}
+.rag-step-tech{font-size:9px;color:var(--muted);margin-top:1px}
+.rag-conn{
+  width:2px;height:7px;
+  background:linear-gradient(to bottom,var(--neon-cyan),transparent);
+  margin:0 auto;opacity:0;transition:opacity .3s ease;
+}
+.rag-conn.show{opacity:1}
+
+/* ═══════════════ SCENE 5 — CODE ═══════════════ */
+.code-window{
+  width:100%;background:#1e1e2e;
+  border:1px solid #313145;border-radius:15px;overflow:hidden;
+  font-family:'JetBrains Mono',monospace;
+  box-shadow:0 0 40px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.04);
+}
+.code-titlebar{
+  display:flex;align-items:center;gap:7px;padding:9px 13px;
+  background:#181825;border-bottom:1px solid #2a2a40;
+}
+.code-titlebar .dots{display:flex;gap:5px}
+.code-titlebar .dot{width:10px;height:10px;border-radius:50%}
+.code-fname{margin-left:7px;font-size:10.5px;color:#6a6a90}
+.code-body{padding:11px 14px;font-size:10px;line-height:1.8;overflow:hidden}
+.line{display:flex}
+.ln{color:#3a3a5c;min-width:26px;user-select:none}
+.code{flex:1;white-space:pre}
+.kw{color:var(--ck)}.fn{color:var(--cf)}.st{color:var(--cs)}
+.cm{color:var(--cc);font-style:italic}.cl{color:var(--ccl)}
+.nu{color:var(--cn)}.pa{color:var(--cp)}.pu{color:#d4d4d4}.de{color:var(--cdc)}
+.code-body .line{opacity:0;transform:translateY(4px);transition:opacity .2s ease,transform .2s ease}
+.code-body .line.show{opacity:1;transform:translateY(0)}
+
+/* ═══════════════ SCENE 6 — DOCKER ═══════════════ */
+.terminal{
+  width:100%;background:#090912;
+  border:1px solid #1a1a2e;border-radius:13px;overflow:hidden;
+  font-family:'JetBrains Mono',monospace;
+}
+.term-bar{
+  display:flex;align-items:center;gap:7px;padding:9px 13px;
+  background:#0f0f1e;border-bottom:1px solid #1a1a2e;
+}
+.term-bar .dots{display:flex;gap:5px}
+.term-bar .dot{width:10px;height:10px;border-radius:50%}
+.term-title{margin-left:5px;font-size:9.5px;color:#44446a}
+.term-body{padding:12px;font-size:9.5px;line-height:1.95}
+.t-prompt{color:var(--neon-green)}.t-cmd{color:var(--white)}
+.t-out{color:#4a5568;display:block;opacity:0;transition:opacity .18s ease}
+.t-out.show{opacity:1}
+.t-success{color:var(--neon-green)}.t-info{color:var(--neon-cyan)}.t-warn{color:var(--neon-amber)}
+
+/* ═══════════════ SCENE 7 — CTA ═══════════════ */
+.cta-logo-wrap{
+  display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:14px;
+}
+.cta-logo-img{
+  width:86px;height:86px;border-radius:22px;object-fit:cover;
+  border:2px solid rgba(0,245,255,.3);
+  box-shadow:0 0 40px rgba(0,245,255,.25),0 0 0 6px rgba(0,245,255,.06);
+  animation:logo-float 3.2s ease-in-out infinite;
+}
+@keyframes logo-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.cta-logo-name{
+  font-size:26px;font-weight:900;letter-spacing:.06em;
+  background:linear-gradient(135deg,var(--neon-cyan),var(--neon-purple));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.cta-logo-sub{font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+
+.github-card{
+  width:100%;
+  background:linear-gradient(135deg,#0d1117,#161b22);
+  border:1px solid #30363d;border-radius:16px;padding:15px;
+  display:flex;align-items:center;gap:12px;
+  box-shadow:0 0 0 1px rgba(255,255,255,.04),0 4px 24px rgba(0,0,0,.5),0 0 32px rgba(0,245,255,.06);
+  margin-bottom:12px;
+}
+.gh-icon-wrap{
+  width:44px;height:44px;border-radius:12px;
+  background:#161b22;border:1px solid #30363d;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.gh-icon-wrap svg{width:24px;height:24px;fill:#e6edf3}
+.gh-info{flex:1;overflow:hidden}
+.gh-repo{font-size:12.5px;font-weight:700;color:#e6edf3}
+.gh-sub{font-size:9.5px;color:#8b949e;margin-top:2px}
+.gh-url{
+  display:flex;align-items:center;gap:5px;margin-top:6px;
+  padding:5px 10px;background:rgba(0,245,255,.05);
+  border:1px solid rgba(0,245,255,.2);border-radius:7px;
+  font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--neon-cyan);
+}
+.gh-url svg{width:9px;height:9px;fill:var(--neon-cyan);flex-shrink:0}
+
+.arch-badges{display:flex;flex-direction:column;gap:7px;width:100%}
+.arch-badge{
+  display:flex;align-items:center;gap:11px;padding:10px 13px;
+  background:var(--surface);border-radius:12px;border:1px solid transparent;
+  opacity:0;transform:translateX(14px);transition:opacity .35s ease,transform .35s ease;
+}
+.arch-badge.in{opacity:1;transform:translateX(0)}
+.arch-badge.glow-c{border-color:rgba(0,245,255,.2);box-shadow:0 0 16px rgba(0,245,255,.1),inset 0 0 12px rgba(0,245,255,.03)}
+.arch-badge.glow-p{border-color:rgba(168,85,247,.2);box-shadow:0 0 16px rgba(168,85,247,.1),inset 0 0 12px rgba(168,85,247,.03)}
+.arch-badge.glow-g{border-color:rgba(34,197,94,.2);box-shadow:0 0 16px rgba(34,197,94,.1),inset 0 0 12px rgba(34,197,94,.03)}
+.arch-icon{width:34px;height:34px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.arch-icon svg{width:18px;height:18px}
+.arch-text{flex:1}
+.arch-title{font-size:11.5px;font-weight:700;color:var(--white)}
+.arch-sub{font-size:9px;color:var(--muted);margin-top:1px}
+
+/* ═══════════════ SCANLINE ═══════════════ */
+@keyframes scanline{from{transform:translateY(-100%)}to{transform:translateY(200%)}}
+.scanline{
+  position:absolute;left:0;right:0;height:2px;
+  background:linear-gradient(to right,transparent,rgba(0,245,255,.13),transparent);
+  pointer-events:none;z-index:90;animation:scanline 3.5s linear infinite;
+}
+
+/* ═══════════════ PROGRESS BAR ═══════════════ */
+#progressbar{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,.05);z-index:200}
+#progressfill{height:100%;background:linear-gradient(90deg,var(--neon-cyan),var(--neon-purple));width:0%;transition:width .1s linear}
+
+/* ═══════════════ SCENE LABEL ═══════════════ */
+.scene-label{ display:none; }
+
+/* ═══════════════ CHEVRON FLOW ANIMATION ═══════════════ */
+.chevron-flow{
+  display:flex;flex-direction:column;align-items:center;gap:0;
+  margin-top:18px;
+  opacity:0;transition:opacity .5s ease .6s;
+}
+.chevron-flow.in{ opacity:1; }
+.chevron-flow .cv-line{
+  width:1px;height:22px;
+  background:linear-gradient(to bottom,rgba(0,245,255,.6),rgba(0,245,255,.1));
+  margin-bottom:4px;
+}
+.chevron-flow .cv-chevrons{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+}
+.cv-chev{
+  width:18px;height:9px;
+  border-left:1.5px solid;
+  border-bottom:1.5px solid;
+  transform:rotate(-45deg);
+  border-radius:0 0 2px 0;
+}
+.cv-chev:nth-child(1){
+  border-color:rgba(0,245,255,.9);
+  animation:chev-pulse 1.2s ease-in-out infinite;
+}
+.cv-chev:nth-child(2){
+  border-color:rgba(0,245,255,.55);
+  animation:chev-pulse 1.2s ease-in-out .18s infinite;
+}
+.cv-chev:nth-child(3){
+  border-color:rgba(0,245,255,.25);
+  animation:chev-pulse 1.2s ease-in-out .36s infinite;
+}
+@keyframes chev-pulse{
+  0%,100%{opacity:.4;transform:rotate(-45deg) translateY(0)}
+  50%{opacity:1;transform:rotate(-45deg) translateY(3px)}
+}
+
+/* ═══════════════ META TAGS (Scene 2 subtle labels) ═══════════════ */
+.meta-tags{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:6px;
+  margin-top:10px;
+}
+.meta-tag{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 9px;
+  border-radius:5px;
+  font-size:9.5px;font-weight:500;letter-spacing:.04em;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  color:rgba(200,210,225,.65);
+  backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+}
+.meta-tag .mt-dot{
+  width:5px;height:5px;border-radius:50%;flex-shrink:0;
+}
+
+/* ═══════════════ STACK TAGS (monochrome tech labels) ═══════════════ */
+.stack-row{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:5px;
+  margin-top:10px;
+}
+.stack-tag{
+  display:inline-flex;align-items:center;
+  padding:3px 9px;
+  border-radius:3px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:9px;font-weight:500;letter-spacing:.04em;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.09);
+  color:rgba(160,175,200,.65);
+}
+
+/* ═══════════════ PLAY OVERLAY ═══════════════ */
+#play-overlay{
+  position:absolute;inset:0;background:rgba(0,0,0,.9);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:16px;z-index:999;border-radius:40px;transition:opacity .5s ease;
+}
+#play-overlay.hidden{opacity:0;pointer-events:none}
+.play-logo{
+  width:72px;height:72px;border-radius:20px;object-fit:cover;
+  box-shadow:0 0 36px rgba(0,245,255,.45);margin-bottom:2px;
+}
+.play-title{font-size:22px;font-weight:900;color:var(--white);letter-spacing:.04em}
+.play-sub{font-size:10.5px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+#play-btn{
+  width:72px;height:72px;border-radius:50%;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--neon-cyan),var(--neon-purple));
+  display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;
+  box-shadow:0 0 44px rgba(0,245,255,.42);
+  transition:transform .15s ease,box-shadow .15s ease;
+}
+#play-btn:hover{transform:scale(1.09);box-shadow:0 0 64px rgba(0,245,255,.65)}
+.play-hint{font-size:9.5px;color:var(--muted);letter-spacing:.06em}
+
+/* ═══════════════ STAMP ═══════════════ */
+.stamp{
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  padding:12px 18px;
+  background:linear-gradient(135deg,rgba(34,197,94,.12),rgba(0,245,255,.07));
+  border:1.5px solid var(--neon-green);border-radius:15px;
+  box-shadow:0 0 28px rgba(34,197,94,.2);margin-top:16px;
+}
+.stamp-icon{font-size:18px}
+.stamp-text{font-size:17px;font-weight:900;letter-spacing:.06em;color:var(--neon-green)}
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <div class="scanline"></div>
+  <div id="progressbar"><div id="progressfill"></div></div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SCENE 1 — EL PROBLEMA  (0:00 – 0:10)
+       "El problema de usar ChatGPT para analizar un CV..."
+       → "...es que inventa datos y te da consejos genéricos."
+  ══════════════════════════════════════════════════════════ -->
+  <div class="scene active" id="s1">
+    <div class="bg-grid"></div>
+    <div class="bg-rr"></div>
+    <div class="scene-label">00:00 – 00:10</div>
+
+    <div class="chatgpt-badge">
+      <span class="chatgpt-dot"></span>
+      <span class="chatgpt-label">El problema con ChatGPT</span>
+    </div>
+
+    <!-- Phase 1: problem statement -->
+    <span class="narr-line" id="n1a"
+      style="font-size:21px;text-align:center;color:var(--white)">
+      El problema de usar ChatGPT<br>para analizar un CV...
+    </span>
+
+    <!-- Phase 2: consequence -->
+    <span class="narr-line" id="n1b"
+      style="font-size:18px;text-align:center;color:var(--red);margin-top:14px;line-height:1.3">
+      ...es que <strong>inventa datos</strong><br>y te da consejos genéricos.
+    </span>
+
+    <!-- Evidence box -->
+    <div class="halluc-box" id="halluc-box" style="margin-top:14px">
+      <div class="halluc-title">❌ Respuesta inventada (ChatGPT)</div>
+      <div class="halluc-item">
+        <span class="halluc-x">×</span>
+        <span>"Tienes experiencia en liderazgo de equipos" — <em style="color:var(--muted)">nunca lo mencionaste</em></span>
+      </div>
+      <div class="halluc-item">
+        <span class="halluc-x">×</span>
+        <span>"Tu inglés fluido es tu mayor fortaleza" — <em style="color:var(--muted)">dato inventado</em></span>
+      </div>
+      <div class="halluc-item">
+        <span class="halluc-x">×</span>
+        <span>Consejos copiados de internet, no de tu CV real</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SCENE 2 — LA SOLUCIÓN PRÁCTICA  (0:10 – 0:25)
+       Upload "CV_Roberto_Carnicero_15_anios_exp.pdf"
+       AI streaming: respuesta del carnicero
+  ══════════════════════════════════════════════════════════ -->
+  <div class="scene" id="s2">
+    <div class="bg-grid"></div>
+    <div class="bg-rc"></div>
+    <div class="scene-label">00:10 – 00:25</div>
+
+    <!-- Narrative header -->
+    <span class="narr-line" id="n2a"
+      style="font-size:13.5px;text-align:center;color:var(--text);margin-bottom:10px;line-height:1.4">
+      CareerAI procesa <strong style="color:var(--neon-cyan)">TU contexto real</strong><br>
+      mediante arquitectura RAG.
+    </span>
+
+    <div class="mock-app">
+      <div class="mock-topbar">
+        <span class="mock-dot" style="background:#ff5f57"></span>
+        <span class="mock-dot" style="background:#febc2e"></span>
+        <span class="mock-dot" style="background:#28c840"></span>
+        <span class="mock-url">careerai-app.hf.space</span>
+      </div>
+      <div class="mock-body">
+        <div class="upload-zone" id="upload-zone">
+          <div class="upload-icon">📄</div>
+          <div class="upload-label" id="upload-label">Subí tu CV aquí</div>
+          <div class="upload-sub" id="upload-sub">PDF · DOCX · TXT · Imagen</div>
+          <div class="upload-fname" id="upload-fname" style="display:none"></div>
+          <div class="upload-progress"><div class="upload-bar" id="ubar"></div></div>
+        </div>
+        <div class="chat-bubble" id="bubble-ai" style="opacity:0;transition:opacity .4s ease">
+          <div class="chat-avatar">AI</div>
+          <div class="chat-text">
+            <span class="streaming-text" id="stream-out"></span>
+            <span class="tw-cursor" id="cursor-blink"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="meta-tags">
+      <span class="meta-tag"><span class="mt-dot" style="background:rgba(34,197,94,.7)"></span>Basado en tu CV real</span>
+      <span class="meta-tag"><span class="mt-dot" style="background:rgba(0,245,255,.6)"></span>SSE Streaming</span>
+      <span class="meta-tag"><span class="mt-dot" style="background:rgba(168,85,247,.6)"></span>RAG Pipeline</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SCENE 3 — BRIDGE / TRANSICIÓN  (0:25 – 0:32)
+       "¿Cómo logramos que la IA no alucine?"
+  ══════════════════════════════════════════════════════════ -->
+  <div class="scene" id="s3">
+    <div class="bg-grid"></div>
+    <div class="bg-r"></div>
+    <div class="scene-label">00:25 – 00:32</div>
+
+    <div class="logo-badge">
+      <img src="https://i.postimg.cc/2yY6ztpG/ideogram-v3-0-Logo-minimalista-y-moderno-para-Career-AI-una-app-de-asistente-IA-para-carreras-p-0-(1.png"
+           alt="CareerAI" class="logo-img" onerror="this.style.display='none'">
+      <span class="logo-text">CAREERAI</span>
+    </div>
+
+    <div class="bridge-q" id="bridge-q">
+      ¿Cómo logramos que la IA
+      <span class="hl"> no alucine?</span>
+    </div>
+    <div class="bridge-sub" id="bridge-sub">
+      Un pipeline de 5 etapas diseñado para <strong>contexto 100% real</strong>.
+    </div>
+    <div class="chevron-flow" id="bridge-arrow">
+      <div class="cv-line"></div>
+      <div class="cv-chevrons">
+        <div class="cv-chev"></div>
+        <div class="cv-chev"></div>
+        <div class="cv-chev"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SCENE 4 — RAG PIPELINE  (0:32 – 0:46)
+  ══════════════════════════════════════════════════════════ -->
+  <div class="scene" id="s4">
+    <div class="bg-grid"></div>
+    <div class="bg-r"></div>
+    <div class="scene-label">00:32 – 00:46</div>
+
+    <div class="narr-line" id="n4a"
+      style="font-size:18px;font-weight:900;color:var(--white);text-align:center;margin-bottom:4px">
+      Motor RAG Híbrido de
+      <span style="color:var(--neon-cyan)">5 etapas.</span>
+    </div>
+    <div class="narr-line" id="n4b"
+      style="font-size:11px;color:var(--neon-purple);margin-bottom:10px;letter-spacing:.06em;text-align:center">
+      ChromaDB + BM25 + Cross-Encoder + Llama 3.3
+    </div>
+
+    <div class="rag-query">
+      <span>📝</span><span>"¿Qué experiencia priorizar para el puesto de Supervisor?"</span>
+    </div>
+
+    <div class="rag-steps">
+      <div class="rag-step" id="rs1">
+        <div class="rag-step-num" style="background:rgba(0,245,255,.14);color:var(--neon-cyan)">1</div>
+        <div class="rag-step-info">
+          <div class="rag-step-name">Búsqueda Vectorial (Semántica)</div>
+          <div class="rag-step-tech">ChromaDB · BGE-M3 · 100+ idiomas</div>
+        </div>
+        <span class="pill pill-c" style="font-size:8.5px;padding:2px 7px">Vector</span>
+      </div>
+      <div class="rag-conn" id="rc1"></div>
+      <div class="rag-step" id="rs2">
+        <div class="rag-step-num" style="background:rgba(168,85,247,.14);color:var(--neon-purple)">2</div>
+        <div class="rag-step-info">
+          <div class="rag-step-name">Búsqueda Léxica (Keywords)</div>
+          <div class="rag-step-tech">BM25 · índice tokenizado</div>
+        </div>
+        <span class="pill pill-p" style="font-size:8.5px;padding:2px 7px">BM25</span>
+      </div>
+      <div class="rag-conn" id="rc2"></div>
+      <div class="rag-step" id="rs3">
+        <div class="rag-step-num" style="background:rgba(245,158,11,.14);color:var(--neon-amber)">3</div>
+        <div class="rag-step-info">
+          <div class="rag-step-name">Reciprocal Rank Fusion</div>
+          <div class="rag-step-tech">Normaliza y fusiona ambos rankings</div>
+        </div>
+        <span class="pill pill-a" style="font-size:8.5px;padding:2px 7px">RRF</span>
+      </div>
+      <div class="rag-conn" id="rc3"></div>
+      <div class="rag-step" id="rs4">
+        <div class="rag-step-num" style="background:rgba(236,72,153,.14);color:var(--neon-pink)">4</div>
+        <div class="rag-step-info">
+          <div class="rag-step-name">Cross-Encoder Reranking</div>
+          <div class="rag-step-tech">BGE-Reranker-v2-m3</div>
+        </div>
+        <span class="pill pill-pk" style="font-size:8.5px;padding:2px 7px">Rerank</span>
+      </div>
+      <div class="rag-conn" id="rc4"></div>
+      <div class="rag-step" id="rs5">
+        <div class="rag-step-num" style="background:rgba(34,197,94,.14);color:var(--neon-green)">5</div>
+        <div class="rag-step-info">
+          <div class="rag-step-name">Generación LLM (Streaming)</div>
+          <div class="rag-step-tech">Groq API · Llama 3.3 70B</div>
+        </div>
+        <span class="pill pill-g" style="font-size:8.5px;padding:2px 7px">LLM</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SCENE 5 — CODE FastAPI  (0:46 – 0:58)
+  ══════════════════════════════════════════════════════════ -->
+  <div class="scene" id="s5">
+    <div class="bg-r"></div>
+    <div class="scene-label">00:46 – 00:58</div>
+
+    <div class="narr-line" id="n5a"
+      style="font-size:19px;font-weight:900;color:var(--white);text-align:center;margin-bottom:5px">
+      Backend robusto y seguro.
+    </div>
+    <div class="narr-line" id="n5b"
+      style="font-size:12px;color:var(--neon-cyan);margin-bottom:10px;letter-spacing:.04em;text-align:center">
+      Python · FastAPI · Autenticación JWT
+    </div>
+
+    <div class="code-window">
+      <div class="code-titlebar">
+        <div class="dots">
+          <div class="dot" style="background:#ff5f57"></div>
+          <div class="dot" style="background:#febc2e"></div>
+          <div class="dot" style="background:#28c840"></div>
+        </div>
+        <span class="code-fname">api.py — FastAPI Backend</span>
+      </div>
+      <div class="code-body" id="code-body">
+        <div class="line"><span class="ln">1</span><span class="code"><span class="de">@app</span><span class="pu">.</span><span class="fn">post</span><span class="pu">(</span><span class="st">"/api/chat/stream"</span><span class="pu">)</span></span></div>
+        <div class="line"><span class="ln">2</span><span class="code"><span class="kw">async def </span><span class="fn">chat_stream</span><span class="pu">(</span></span></div>
+        <div class="line"><span class="ln">3</span><span class="code">    <span class="pa">request</span><span class="pu">: </span><span class="cl">ChatRequest</span><span class="pu">,</span></span></div>
+        <div class="line"><span class="ln">4</span><span class="code">    <span class="pa">user_id</span><span class="pu">: </span><span class="cl">str</span><span class="pu"> = </span><span class="fn">Depends</span><span class="pu">(</span><span class="fn">get_user_or_session_id</span><span class="pu">)</span></span></div>
+        <div class="line"><span class="ln">5</span><span class="code"><span class="pu">):</span></span></div>
+        <div class="line"><span class="ln">6</span><span class="code">    <span class="cm"># Retrieval from Hybrid RAG</span></span></div>
+        <div class="line"><span class="ln">7</span><span class="code">    <span class="pa">rag</span><span class="pu"> = </span><span class="fn">state</span><span class="pu">.</span><span class="fn">get_rag</span><span class="pu">()</span></span></div>
+        <div class="line"><span class="ln">8</span><span class="code">    <span class="pa">context</span><span class="pu"> = </span><span class="pa">rag</span><span class="pu">.</span><span class="fn">get_context</span><span class="pu">(</span><span class="pa">request</span><span class="pu">.</span><span class="pa">query</span><span class="pu">, </span><span class="pa">k</span><span class="pu">=</span><span class="nu">8</span><span class="pu">, </span><span class="pa">user_id</span><span class="pu">=</span><span class="pa">user_id</span><span class="pu">)</span></span></div>
+        <div class="line"><span class="ln">9</span><span class="code"></span></div>
+        <div class="line"><span class="ln">10</span><span class="code">    <span class="kw">async def </span><span class="fn">event_generator</span><span class="pu">():</span></span></div>
+        <div class="line"><span class="ln">11</span><span class="code">        <span class="cm"># Stream tokens via SSE</span></span></div>
+        <div class="line"><span class="ln">12</span><span class="code">        <span class="kw">for </span><span class="pa">chunk</span><span class="kw"> in </span><span class="pa">state</span><span class="pu">.</span><span class="pa">assistant</span><span class="pu">.</span><span class="fn">stream_chat</span><span class="pu">(</span></span></div>
+        <div class="line"><span class="ln">13</span><span class="code">            <span class="pa">query</span><span class="pu">=</span><span class="pa">request</span><span class="pu">.</span><span class="pa">query</span><span class="pu">, </span><span class="pa">context</span><span class="pu">=</span><span class="pa">context</span></span></div>
+        <div class="line"><span class="ln">14</span><span class="code">        <span class="pu">):</span></span></div>
+        <div class="line"><span class="ln">15</span><span class="code">            <span class="kw">yield </span><span class="st">f"data: </span><span class="pu">{</span><span class="fn">json</span><span class="pu">.</span><span class="fn">dumps</span><span class="pu">({</span><span class="st">'content'</span><span class="pu">:</span> <span class="pa">chunk</span><span class="pu">})}</span><span class="st">\\n\\n"</span></span></div>
+        <div class="line"><span class="ln">16</span><span class="code"></span></div>
+        <div class="line"><span class="ln">17</span><span class="code">    <span class="kw">return </span><span class="cl">StreamingResponse</span><span class="pu">(</span><span class="fn">event_generator</span><span class="pu">(),</span></span></div>
+        <div class="line"><span class="ln">18</span><span class="code">        <span class="pa">media_type</span><span class="pu">=</span><span class="st">"text/event-stream"</span><span class="pu">)</span></span></div>
+      </div>
+    </div>
+
+    <div class="stack-row" style="margin-top:16px">
+      <span class="stack-tag">FastAPI</span>
+      <span class="stack-tag">Python 3.10+</span>
+      <span class="stack-tag">JWT Auth</span>
+      <span class="stack-tag">SSE</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SCENE 6 — DOCKER  (0:58 – 1:06)
+  ══════════════════════════════════════════════════════════ -->
+  <div class="scene" id="s6">
+    <div class="bg-grid"></div>
+    <div class="bg-r"></div>
+    <div class="scene-label">00:58 – 01:06</div>
+
+    <div class="narr-line" id="n6a"
+      style="font-size:19px;font-weight:900;color:var(--white);text-align:center;margin-bottom:4px">
+      <span style="color:var(--neon-cyan)">Docker</span> → HuggingFace Spaces
+    </div>
+    <div class="narr-line" id="n6b"
+      style="font-size:12px;color:var(--neon-green);margin-bottom:12px;letter-spacing:.04em;text-align:center">
+      ✅ Desplegado &amp; Live en producción
+    </div>
+
+    <div class="terminal">
+      <div class="term-bar">
+        <div class="dots">
+          <div class="dot" style="background:#ff5f57"></div>
+          <div class="dot" style="background:#febc2e"></div>
+          <div class="dot" style="background:#28c840"></div>
+        </div>
+        <span class="term-title">bash — CareerAI</span>
+      </div>
+      <div class="term-body">
+        <div><span class="t-prompt">$ </span><span class="t-cmd">docker build -t careerai .</span></div>
+        <span class="t-out" id="to1"><span class="t-info">[+] Building 12.4s (18/18) FINISHED</span></span>
+        <span class="t-out" id="to2"><span class="t-warn"> => [base] COPY requirements.txt .</span></span>
+        <span class="t-out" id="to3"><span class="t-warn"> => [base] RUN pip install -r requirements.txt</span></span>
+        <span class="t-out" id="to4"><span class="t-success"> ✓  Successfully built careerai:latest</span></span>
+        <div style="margin-top:4px"><span class="t-prompt">$ </span><span class="t-cmd">docker run -p 7860:7860 --env-file .env careerai</span></div>
+        <span class="t-out" id="to5"><span class="t-info">INFO:     Started server process [1]</span></span>
+        <span class="t-out" id="to6"><span class="t-success">✅ Auto-connected (model: llama-3.3-70b-versatile)</span></span>
+        <span class="t-out" id="to7"><span class="t-success">✅ RAG engine ready · Hybrid search ON</span></span>
+        <span class="t-out" id="to8"><span class="t-info">INFO:     Uvicorn running on http://0.0.0.0:7860</span></span>
+      </div>
+    </div>
+
+    <div class="stack-row">
+      <span class="stack-tag">Docker</span>
+      <span class="stack-tag">HuggingFace Spaces</span>
+      <span class="stack-tag">Python · Uvicorn</span>
+      <span class="stack-tag">16 GB RAM</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SCENE 7 — CTA  (1:06 – 1:10)
+  ══════════════════════════════════════════════════════════ -->
+  <div class="scene" id="s7">
+    <div class="bg-grid"></div>
+    <div class="bg-rb"></div>
+    <div class="scene-label">01:06 – 01:10</div>
+
+    <div class="cta-logo-wrap">
+      <img src="https://i.postimg.cc/2yY6ztpG/ideogram-v3-0-Logo-minimalista-y-moderno-para-Career-AI-una-app-de-asistente-IA-para-carreras-p-0-(1.png"
+           alt="CareerAI Logo" class="cta-logo-img" onerror="this.style.display='none'">
+      <div class="cta-logo-name">CareerAI</div>
+      <div class="cta-logo-sub">AI-Powered Career Assistant</div>
+    </div>
+
+    <div class="narr-line" id="n7a"
+      style="font-size:18px;font-weight:900;color:var(--white);text-align:center;margin-bottom:12px">
+      Código abierto.
+      <span style="color:var(--neon-cyan)">Arquitectura lista.</span>
+    </div>
+
+    <div class="github-card">
+      <div class="gh-icon-wrap">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 0C5.37 0 0 5.373 0 12c0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.418-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.298 24 12c0-6.627-5.373-12-12-12z"/>
+        </svg>
+      </div>
+      <div class="gh-info">
+        <div class="gh-repo">Nicola671 / CareerAI</div>
+        <div class="gh-sub">Full-Stack AI Career Assistant · MIT License</div>
+        <div class="gh-url">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          github.com/Nicola671/CareerAI
+        </div>
+      </div>
+    </div>
+
+    <div class="arch-badges">
+      <div class="arch-badge glow-c" id="ab1">
+        <div class="arch-icon" style="background:rgba(0,245,255,.1)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--neon-cyan)" stroke-width="1.7">
+            <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0018 0V5"/><path d="M3 12a9 3 0 0018 0"/>
+          </svg>
+        </div>
+        <div class="arch-text">
+          <div class="arch-title">Arquitectura RAG Híbrida</div>
+          <div class="arch-sub">ChromaDB · BM25 · Cross-Encoder · RRF</div>
+        </div>
+      </div>
+      <div class="arch-badge glow-p" id="ab2">
+        <div class="arch-icon" style="background:rgba(168,85,247,.1)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--neon-purple)" stroke-width="1.7">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <polyline points="9 12 11 14 15 10"/>
+          </svg>
+        </div>
+        <div class="arch-text">
+          <div class="arch-title">Multi-Tenant &amp; JWT Auth</div>
+          <div class="arch-sub">BCrypt · Google OAuth · Email recovery</div>
+        </div>
+      </div>
+      <div class="arch-badge glow-g" id="ab3">
+        <div class="arch-icon" style="background:rgba(34,197,94,.1)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--neon-green)" stroke-width="1.7">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>
+          </svg>
+        </div>
+        <div class="arch-text">
+          <div class="arch-title">Docker Deploy</div>
+          <div class="arch-sub">HuggingFace Spaces · 16 GB RAM · $0</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       PLAY OVERLAY
+  ══════════════════════════════════════════════════════════ -->
+  <div id="play-overlay">
+    <img src="https://i.postimg.cc/2yY6ztpG/ideogram-v3-0-Logo-minimalista-y-moderno-para-Career-AI-una-app-de-asistente-IA-para-carreras-p-0-(1.png"
+         alt="CareerAI" class="play-logo" onerror="this.style.display='none'">
+    <div class="play-title">CareerAI</div>
+    <div class="play-sub">Video Promo · ~70 segundos</div>
+    <button id="play-btn" onclick="startAnimation()" aria-label="Play">▶</button>
+    <div class="play-hint">Preparate para grabar, luego presioná Play</div>
+  </div>
+
+</div><!-- /stage -->
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   TIMELINE (~70 s)
+   S1:  0 – 10 s  El Problema (ChatGPT)
+   S2: 10 – 25 s  La Solución + carnicero demo
+   S3: 25 – 32 s  Bridge: "¿Cómo logramos que la IA no alucine?"
+   S4: 32 – 46 s  RAG Pipeline (14 s)
+   S5: 46 – 58 s  Code FastAPI (12 s)
+   S6: 58 – 66 s  Docker Terminal (8 s)
+   S7: 66 – 70 s  CTA (4 s)
+══════════════════════════════════════════════════════════════ */
+const TOTAL = 70000;
+let startTime=null, rafId=null, currentScene=0;
+let sceneTimers=[];
+
+const scenes=[
+  {el:document.getElementById('s1'), start:0,     end:10000},
+  {el:document.getElementById('s2'), start:10000, end:25000},
+  {el:document.getElementById('s3'), start:25000, end:32000},
+  {el:document.getElementById('s4'), start:32000, end:46000},
+  {el:document.getElementById('s5'), start:46000, end:58000},
+  {el:document.getElementById('s6'), start:58000, end:66000},
+  {el:document.getElementById('s7'), start:66000, end:70000},
+];
+
+/* ── helpers ── */
+function activateScene(idx){
+  scenes.forEach((s,i)=>{
+    s.el.classList.remove('active','exit');
+    if(i===idx) s.el.classList.add('active');
+    if(i<idx)   s.el.classList.add('exit');
+  });
+}
+function delay(ms,fn){ const t=setTimeout(fn,ms); sceneTimers.push(t); return t; }
+function show(id){ delay(0,()=>{ const e=document.getElementById(id); if(e) e.classList.add('in'); }); }
+function showAt(id,ms){ delay(ms,()=>{ const e=document.getElementById(id); if(e) e.classList.add('in'); }); }
+
+/* ── S1: El Problema ── */
+function initS1(){
+  showAt('n1a', 150);
+  showAt('n1b', 1100);
+  delay(2200,()=>{ const b=document.getElementById('halluc-box'); if(b) b.classList.add('in'); });
+}
+
+/* ── S2: Solución + carnicero ── */
+function initS2(){
+  showAt('n2a', 100);
+
+  // File name appears in zone
+  delay(800,()=>{
+    const lbl=document.getElementById('upload-label');
+    const sub=document.getElementById('upload-sub');
+    const fnm=document.getElementById('upload-fname');
+    if(lbl) lbl.textContent='Subiendo archivo...';
+    if(sub) sub.style.display='none';
+    if(fnm){ fnm.style.display='block'; fnm.textContent='CV_Roberto_Carnicero_15_anios_exp.pdf'; }
+  });
+
+  // Upload progress bar
+  delay(900,()=>{ const b=document.getElementById('ubar'); if(b) b.style.width='100%'; });
+
+  // Zone turns green
+  delay(3100,()=>{
+    const z=document.getElementById('upload-zone');
+    const lbl=document.getElementById('upload-label');
+    if(z){ z.style.borderColor='var(--neon-green)'; z.style.background='rgba(34,197,94,.04)'; }
+    if(lbl){ lbl.textContent='✅ Indexado — 15 años de experiencia detectados'; lbl.style.color='var(--neon-green)'; }
+  });
+
+  // Butcher AI response (streaming)
+  const txt='Analizando perfil... Veo que tienes 15 años de experiencia como Maestro Carnicero. Tu fuerte es el desposte de medias reses y la atención al público. Para aplicar al puesto de Supervisor de frigorífico, debes destacar en tu CV tu capacidad para gestionar mermas y tu conocimiento en la cadena de frío.';
+
+  delay(4000,()=>{
+    const bubble=document.getElementById('bubble-ai');
+    if(bubble) bubble.style.opacity='1';
+    streamChars(document.getElementById('stream-out'), txt, 24, ()=>{
+      const c=document.getElementById('cursor-blink');
+      if(c) c.style.display='none';
+    });
+  });
+}
+
+function streamChars(container, text, msPerChar, done){
+  if(!container) return;
+  container.innerHTML='';
+  [...text].forEach((ch,i)=>{
+    const s=document.createElement('span');
+    s.textContent=ch;
+    container.appendChild(s);
+    delay(i*msPerChar,()=>{ s.style.opacity='1'; });
+  });
+  if(done) delay(text.length*msPerChar+300, done);
+}
+
+/* ── S3: Bridge ── */
+function initS3(){
+  delay(150,()=>{
+    const q=document.getElementById('bridge-q');
+    const s=document.getElementById('bridge-sub');
+    const a=document.getElementById('bridge-arrow');
+    if(q) q.classList.add('in');
+    if(s) s.classList.add('in');
+    if(a) a.classList.add('in');
+  });
+}
+
+/* ── S4: RAG Pipeline ── */
+function initS4(){
+  showAt('n4a', 100);
+  showAt('n4b', 550);
+
+  const steps=['rs1','rs2','rs3','rs4','rs5'];
+  const conns=['rc1','rc2','rc3','rc4'];
+  const sd=[1200,2500,3800,5200,6500];
+  const cd=[1850,3150,4500,5850];
+
+  steps.forEach((id,i)=>{
+    delay(sd[i],()=>{
+      const el=document.getElementById(id);
+      if(!el) return;
+      el.classList.add('show');
+      delay(80,()=>el.classList.add('active-step'));
+      delay(900,()=>el.classList.remove('active-step'));
+    });
+  });
+  conns.forEach((id,i)=>{
+    delay(cd[i],()=>{ const el=document.getElementById(id); if(el) el.classList.add('show'); });
+  });
+}
+
+/* ── S5: Code ── */
+function initS5(){
+  showAt('n5a', 100);
+  showAt('n5b', 550);
+  const lines=document.querySelectorAll('#code-body .line');
+  lines.forEach((l,i)=>{ delay(1100+i*240, ()=>l.classList.add('show')); });
+}
+
+/* ── S6: Docker ── */
+function initS6(){
+  showAt('n6a', 100);
+  showAt('n6b', 500);
+  const outs  =['to1','to2','to3','to4','to5','to6','to7','to8'];
+  const delays=[800,1250,1700,2350,3300,3900,4550,5200];
+  outs.forEach((id,i)=>{
+    delay(delays[i],()=>{ const el=document.getElementById(id); if(el) el.classList.add('show'); });
+  });
+}
+
+/* ── S7: CTA ── */
+function initS7(){
+  showAt('n7a', 150);
+  ['ab1','ab2','ab3'].forEach((id,i)=>{
+    delay(500+i*280,()=>{ const el=document.getElementById(id); if(el) el.classList.add('in'); });
+  });
+}
+
+/* ── clear ── */
+function clearSceneTimers(){ sceneTimers.forEach(t=>clearTimeout(t)); sceneTimers=[]; }
+
+/* ── tick ── */
+function tick(now){
+  if(!startTime) startTime=now;
+  const ms=now-startTime;
+  document.getElementById('progressfill').style.width=Math.min(ms/TOTAL*100,100)+'%';
+
+  let newScene=currentScene;
+  for(let i=scenes.length-1;i>=0;i--){
+    if(ms>=scenes[i].start){newScene=i;break;}
+  }
+
+  if(newScene!==currentScene){
+    clearSceneTimers();
+    currentScene=newScene;
+    activateScene(currentScene);
+    const inits=[initS1,initS2,initS3,initS4,initS5,initS6,initS7];
+    if(inits[currentScene]) inits[currentScene]();
+  }
+
+  if(ms<TOTAL) rafId=requestAnimationFrame(tick);
+  else document.getElementById('progressfill').style.width='100%';
+}
+
+/* ── start ── */
+function startAnimation(){
+  const overlay=document.getElementById('play-overlay');
+  overlay.classList.add('hidden');
+  setTimeout(()=>overlay.style.display='none',500);
+
+  scenes.forEach((s,i)=>{
+    s.el.classList.remove('active','exit');
+    if(i===0) s.el.classList.add('active');
+  });
+  currentScene=0;
+  if(rafId) cancelAnimationFrame(rafId);
+  startTime=null;
+  clearSceneTimers();
+  delay(0, initS1);
+  rafId=requestAnimationFrame(tick);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: careerai
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    envVars:
+      # Use lightweight embedding model (fits in 512 MB RAM)
+      - key: EMBEDDING_MODEL
+        value: gte-multilingual
+      # Disable reranker to save ~1.5 GB RAM
+      - key: ENABLE_RERANKING
+        value: "false"
+      # Your API keys (set these in Render dashboard, NOT here)
+      - key: GROQ_API_KEY
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: JSEARCH_API_KEY
+        sync: false
+      - key: MAIL_USERNAME
+        sync: false
+      - key: MAIL_PASSWORD
+        sync: false
+      - key: MAIL_FROM
+        sync: false
