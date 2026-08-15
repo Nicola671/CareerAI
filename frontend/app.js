@@ -1,4 +1,4 @@
-﻿/**
+/**
  * CareerAI — Claude-Style Frontend
  * Full implementation connected to FastAPI backend
  */
@@ -259,13 +259,23 @@ window.saveApiConfig = saveApiConfig;
 // ===== SIDEBAR =====
 function setupSidebar() {
     els.toggleSidebar.addEventListener('click', toggleSidebar);
-    els.mobileSidebarToggle.addEventListener('click', () => {
-        els.sidebar.classList.remove('collapsed');
-    });
+    if (els.mobileSidebarToggle) {
+        els.mobileSidebarToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            els.sidebar.classList.toggle('collapsed');
+        });
+    }
+
+    const backdrop = $('#sidebarBackdrop');
+    if (backdrop) {
+        backdrop.addEventListener('click', () => {
+            els.sidebar.classList.add('collapsed');
+        });
+    }
 
     document.addEventListener('click', (e) => {
         if (window.innerWidth <= 768) {
-            if (!els.sidebar.contains(e.target) && !els.mobileSidebarToggle.contains(e.target)) {
+            if (!els.sidebar.contains(e.target) && (!els.mobileSidebarToggle || !els.mobileSidebarToggle.contains(e.target))) {
                 els.sidebar.classList.add('collapsed');
             }
         }

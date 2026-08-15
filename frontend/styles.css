@@ -415,23 +415,103 @@ body {
     color: var(--text-primary);
 }
 
+/* ===== MOBILE HEADER BAR ===== */
+.mobile-header-bar {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 54px;
+    z-index: 280;
+    background: rgba(15, 23, 42, 0.92);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 14px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.mobile-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mobile-brand .brand-dot {
+    width: 8px;
+    height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #10b981;
+}
+
+.mobile-brand .brand-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+}
+
+.mobile-brand .brand-badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    background: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 6px;
+}
+
+.mobile-header-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.mobile-header-btn:active {
+    transform: scale(0.92);
+    background: rgba(16, 185, 129, 0.2);
+    border-color: var(--accent-primary);
+}
+
+/* Sidebar Backdrop */
+.sidebar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 295;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
 /* ===== MOBILE SIDEBAR TOGGLE ===== */
 .mobile-sidebar-toggle {
     display: none;
-    position: fixed;
-    top: 6px;
-    left: 8px;
-    z-index: 250;
     width: 36px;
     height: 36px;
     align-items: center;
     justify-content: center;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-medium);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     cursor: pointer;
     color: var(--text-primary);
-    box-shadow: var(--shadow-sm);
     transition: all var(--transition-fast);
 }
 
@@ -1285,22 +1365,36 @@ body {
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
+    .mobile-header-bar {
+        display: flex;
+    }
+
+    .sidebar-backdrop {
+        display: block;
+    }
+
+    .sidebar:not(.collapsed) ~ .sidebar-backdrop {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
     .sidebar {
         position: fixed;
         left: 0;
         top: 0;
         bottom: 0;
         z-index: 300;
-        width: 100%;
-        max-width: 300px;
-        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.4);
+        width: 82%;
+        max-width: 310px;
+        box-shadow: 10px 0 35px rgba(0, 0, 0, 0.6);
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .sidebar.collapsed {
         transform: translateX(-100%);
-        width: 100%;
-        min-width: 100%;
-        border-right: 1px solid var(--border-light);
+        width: 82%;
+        min-width: 82%;
     }
 
     .mobile-sidebar-toggle {
@@ -1308,56 +1402,54 @@ body {
     }
 
     .sidebar:not(.collapsed)~.mobile-sidebar-toggle {
-        display: none;
+        display: flex;
     }
 
     #toggleSidebar {
         display: flex;
     }
 
-    .notification-bar {
-        padding-left: 52px;
-        padding-right: 12px;
-        min-height: 48px;
-        justify-content: flex-start;
-        font-size: 0.75rem;
-        white-space: nowrap;
-        overflow-x: auto;
-        scrollbar-width: none;
+    .main-content {
+        padding-top: 54px;
+        height: 100vh;
+        overflow-y: auto;
     }
 
-    .notification-bar::-webkit-scrollbar {
+    .notification-bar {
         display: none;
     }
 
     .welcome-screen {
-        padding: 20px 16px 32px 16px;
+        padding: 24px 16px 40px;
         justify-content: flex-start;
+        min-height: calc(100vh - 54px);
     }
 
     .welcome-logo {
-        margin-top: 8px;
-        margin-bottom: 14px !important;
+        margin-top: 12px;
+        margin-bottom: 12px !important;
         gap: 10px !important;
     }
 
     .welcome-logo svg {
-        width: 40px !important;
-        height: 40px !important;
+        width: 44px !important;
+        height: 44px !important;
     }
 
-    .welcome-logo div {
+    .welcome-logo-text {
         font-size: 2.2rem !important;
     }
 
     .welcome-heading {
-        font-size: 1.15rem !important;
-        margin-bottom: 22px !important;
+        font-size: 1.1rem !important;
+        margin-bottom: 24px !important;
         line-height: 1.35;
+        color: var(--text-secondary);
         padding: 0 8px;
     }
 
     .suggestion-chips {
+        display: flex;
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
@@ -1365,70 +1457,95 @@ body {
         width: 100%;
         max-width: 100%;
         padding: 0 4px;
+        margin-top: 12px;
     }
 
     .chip {
         width: auto;
         max-width: none;
         flex: 0 1 auto;
-        font-size: 0.82rem;
+        font-size: 0.8rem;
         padding: 8px 14px;
         border-radius: 20px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .chip:active {
+        transform: scale(0.96);
+        background: rgba(16, 185, 129, 0.15);
+        border-color: var(--accent-primary);
     }
 
     .welcome-input-container {
         max-width: 100%;
-        padding: 0 4px;
+        padding: 0;
     }
 
     .welcome-input-wrapper {
-        border-radius: 14px;
+        border-radius: 16px;
+        background: rgba(30, 41, 59, 0.7);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        padding: 12px;
     }
 
     .message-inner {
-        padding: 0 12px;
+        padding: 0 10px;
         gap: 10px;
     }
 
-    .message-avatar {
-        width: 24px;
-        height: 24px;
-        min-width: 24px;
+    .chat-messages {
+        padding-bottom: 90px;
+    }
+
+    .chat-input-container {
+        padding: 8px 12px 14px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(15, 23, 42, 0.92);
+        backdrop-filter: blur(16px);
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        z-index: 100;
     }
 
     .upload-type-selector {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    /* Force show delete button on mobile since there is no hover */
     .conversation-delete {
         opacity: 1;
         padding: 6px;
     }
 
     .welcome-download-section {
-        margin-top: 24px;
+        margin-top: 28px;
         width: 100%;
     }
 
     .welcome-download-section h2 {
-        font-size: 1.2rem !important;
-        margin-bottom: 14px !important;
+        font-size: 1.15rem !important;
+        margin-bottom: 12px !important;
     }
 
     .download-cards-container {
         grid-template-columns: 1fr;
-        gap: 12px;
+        gap: 10px;
     }
 
     .download-card {
-        padding: 16px;
-        gap: 12px;
+        padding: 14px 16px;
+        background: rgba(30, 41, 59, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 14px;
     }
 
     .download-card .card-icon {
-        width: 40px;
-        height: 40px;
+        width: 38px;
+        height: 38px;
     }
 }
 
@@ -1438,17 +1555,12 @@ body {
     }
 
     .sidebar {
-        width: 100%;
-        min-width: 100%;
+        width: 85%;
+        max-width: 320px;
     }
 
     .sidebar-inner {
         width: 100%;
-    }
-
-    .notification-bar {
-        font-size: 0.71rem;
-        padding-left: 50px;
     }
 
     .suggestion-chips {
@@ -1457,7 +1569,7 @@ body {
 
     .chip {
         font-size: 0.78rem;
-        padding: 6px 12px;
+        padding: 7px 12px;
     }
 
     .chat-input-container {
