@@ -35,7 +35,7 @@ class DocumentProcessor:
 
     @staticmethod
     def _extract_image(file_path: str, groq_api_key: str) -> str:
-        """Extract text from an image using Groq Vision (Llama 4 Scout)."""
+        """Extract text from an image using Groq Vision (Qwen 3.6 27B)."""
         try:
             from groq import Groq
 
@@ -60,7 +60,7 @@ class DocumentProcessor:
             # Call Groq Vision API
             client = Groq(api_key=groq_api_key)
             response = client.chat.completions.create(
-                model="meta-llama/llama-4-scout-17b-16e-instruct",
+                model="qwen/qwen3.6-27b",
                 messages=[
                     {
                         "role": "user",
@@ -220,9 +220,7 @@ class DocumentProcessor:
         logger = logging.getLogger("careerai.document")
 
         VISION_MODELS = [
-            "meta-llama/llama-4-scout-17b-16e-instruct",
-            "llama-3.2-90b-vision-preview",
-            "llama-3.2-11b-vision-preview",
+            "qwen/qwen3.6-27b",
         ]
 
         # Step 1: Try converting PDF pages to images with PyMuPDF
