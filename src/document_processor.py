@@ -104,7 +104,10 @@ class DocumentProcessor:
     @staticmethod
     def _extract_pdf(file_path: str, groq_api_key: str = None) -> str:
         """Extract text from PDF. Tries 3 methods + Vision API for scanned PDFs."""
+        import logging
+        logger = logging.getLogger("careerai.document")
         text = ""
+        errors = []
 
         # Method 1: PyPDF (fast, works with text PDFs)
         try:
@@ -115,10 +118,15 @@ class DocumentProcessor:
                 page_text = page.extract_text()
                 if page_text:
                     text += page_text + "\n"
-            if text.strip() and len(text.strip()) > 50:
+            if text.strip() and len(text.strip()) > 20:
+                logger.info(f"PDF extracted with pypdf: {len(text)} chars")
                 return text.strip()
-        except Exception:
-            pass
+            else:
+                errors.append(f"pypdf: solo {len(text.strip())} chars")
+        except ImportError:
+            errors.append("pypdf: no instalado")
+        except Exception as e:
+            errors.append(f"pypdf: {e}")
 
         # Method 2: pdfplumber (better with complex layouts)
         try:
@@ -145,10 +153,15 @@ class DocumentProcessor:
                     except Exception:
                         pass
 
-            if text.strip() and len(text.strip()) > 50:
+            if text.strip() and len(text.strip()) > 20:
+                logger.info(f"PDF extracted with pdfplumber: {len(text)} chars")
                 return text.strip()
-        except Exception:
-            pass
+            else:
+                errors.append(f"pdfplumber: solo {len(text.strip())} chars")
+        except ImportError:
+            errors.append("pdfplumber: no instalado")
+        except Exception as e:
+            errors.append(f"pdfplumber: {e}")
 
         # Method 3: PyMuPDF / fitz (handles more PDF types)
         try:
@@ -162,35 +175,58 @@ class DocumentProcessor:
                     fitz_text += page_text + "\n"
             doc.close()
 
-            if fitz_text.strip() and len(fitz_text.strip()) > 50:
+            if fitz_text.strip() and len(fitz_text.strip()) > 20:
+                logger.info(f"PDF extracted with fitz: {len(fitz_text)} chars")
                 return fitz_text.strip()
-        except Exception:
-            pass
+            else:
+                errors.append(f"fitz/PyMuPDF: solo {len(fitz_text.strip())} chars")
+        except ImportError:
+            errors.append("PyMuPDF: no instalado")
+        except Exception as e:
+            errors.append(f"fitz/PyMuPDF: {e}")
 
         # Method 4: Vision AI - render PDF pages as images and read with Llama Vision
         if groq_api_key:
             try:
-                return DocumentProcessor._extract_pdf_via_vision(
+                result = DocumentProcessor._extract_pdf_via_vision(
                     file_path, groq_api_key
                 )
+                logger.info(f"PDF extracted with Vision API: {len(result)} chars")
+                return result
             except Exception as vision_err:
-                # If vision also fails, give detailed error
-                pass
+                errors.append(f"Vision API: {vision_err}")
+        else:
+            errors.append("Vision API: no API key disponible")
 
-        # Last resort
+        # Last resort — return whatever we have
         if text.strip():
+            logger.warning(f"PDF fallback con texto parcial: {len(text.strip())} chars")
             return text.strip()
 
+        # Log all errors for debugging
+        error_detail = " | ".join(errors)
+        logger.error(f"PDF extraction failed for {file_path}: {error_detail}")
+
         raise ValueError(
-            "No se pudo extraer texto del PDF. "
-            "Puede ser un PDF escaneado. Intenta subir una imagen/captura del documento."
+            f"No se pudo extraer texto del PDF. "
+            f"Intentá subir una imagen/captura del documento. "
+            f"(Detalle: {error_detail})"
         )
 
     @staticmethod
     def _extract_pdf_via_vision(file_path: str, groq_api_key: str) -> str:
         """Extract text from a scanned PDF by converting pages to images and using Vision."""
+        import logging
+        logger = logging.getLogger("careerai.document")
+
+        VISION_MODELS = [
+            "meta-llama/llama-4-scout-17b-16e-instruct",
+            "llama-3.2-90b-vision-preview",
+            "llama-3.2-11b-vision-preview",
+        ]
+
+        # Step 1: Try converting PDF pages to images with PyMuPDF
         try:
-            # Try using fitz (PyMuPDF) to convert PDF pages to images
             import fitz  # PyMuPDF
 
             doc = fitz.open(file_path)
@@ -202,43 +238,51 @@ class DocumentProcessor:
                 mat = fitz.Matrix(2, 2)  # 2x zoom for better quality
                 pix = page.get_pixmap(matrix=mat)
                 img_bytes = pix.tobytes("png")
-
-                # Use Vision API
                 base64_image = base64.b64encode(img_bytes).decode("utf-8")
 
-                from groq import Groq
-
-                client = Groq(api_key=groq_api_key)
-                response = client.chat.completions.create(
-                    model="meta-llama/llama-4-scout-17b-16e-instruct",
-                    messages=[
-                        {
-                            "role": "user",
-                            "content": [
+                # Try each vision model
+                page_extracted = False
+                for model in VISION_MODELS:
+                    try:
+                        from groq import Groq
+                        client = Groq(api_key=groq_api_key)
+                        response = client.chat.completions.create(
+                            model=model,
+                            messages=[
                                 {
-                                    "type": "text",
-                                    "text": (
-                                        f"Página {page_num + 1}. Extraé TODO el texto de esta página "
-                                        "exactamente como aparece. Incluí todos los detalles. "
-                                        "Respondé SOLO con el texto extraído."
-                                    ),
-                                },
-                                {
-                                    "type": "image_url",
-                                    "image_url": {
-                                        "url": f"data:image/png;base64,{base64_image}"
-                                    },
-                                },
+                                    "role": "user",
+                                    "content": [
+                                        {
+                                            "type": "text",
+                                            "text": (
+                                                f"Página {page_num + 1}. Extraé TODO el texto de esta página "
+                                                "exactamente como aparece. Incluí todos los detalles. "
+                                                "Respondé SOLO con el texto extraído."
+                                            ),
+                                        },
+                                        {
+                                            "type": "image_url",
+                                            "image_url": {
+                                                "url": f"data:image/png;base64,{base64_image}"
+                                            },
+                                        },
+                                    ],
+                                }
                             ],
-                        }
-                    ],
-                    max_tokens=4096,
-                    temperature=0.1,
-                )
+                            max_tokens=4096,
+                            temperature=0.1,
+                        )
+                        page_text = response.choices[0].message.content
+                        if page_text and page_text.strip():
+                            all_text.append(page_text.strip())
+                            page_extracted = True
+                            break  # Success with this model
+                    except Exception as e:
+                        logger.warning(f"Vision model {model} failed for page {page_num+1}: {e}")
+                        continue
 
-                page_text = response.choices[0].message.content
-                if page_text and page_text.strip():
-                    all_text.append(page_text.strip())
+                if not page_extracted:
+                    logger.warning(f"All vision models failed for page {page_num+1}")
 
             doc.close()
 
@@ -246,54 +290,11 @@ class DocumentProcessor:
                 return "\n\n".join(all_text)
 
         except ImportError:
-            # PyMuPDF not installed, try converting via PIL
-            pass
-        except Exception:
-            pass
+            logger.warning("PyMuPDF not installed, skipping page-to-image conversion")
+        except Exception as e:
+            logger.error(f"PyMuPDF conversion error: {e}")
 
-        # If PyMuPDF conversion failed, try reading the raw PDF as image
-        # (some PDFs are essentially single-page images)
-        try:
-            with open(file_path, "rb") as f:
-                pdf_bytes = f.read()
-            base64_pdf = base64.b64encode(pdf_bytes).decode("utf-8")
-
-            from groq import Groq
-
-            client = Groq(api_key=groq_api_key)
-            response = client.chat.completions.create(
-                model="meta-llama/llama-4-scout-17b-16e-instruct",
-                messages=[
-                    {
-                        "role": "user",
-                        "content": [
-                            {
-                                "type": "text",
-                                "text": (
-                                    "Extraé TODO el texto de este documento. "
-                                    "Incluí nombres, fechas, experiencia, skills. "
-                                    "Respondé SOLO con el texto extraído."
-                                ),
-                            },
-                            {
-                                "type": "image_url",
-                                "image_url": {
-                                    "url": f"data:application/pdf;base64,{base64_pdf}"
-                                },
-                            },
-                        ],
-                    }
-                ],
-                max_tokens=4096,
-                temperature=0.1,
-            )
-            text = response.choices[0].message.content
-            if text and text.strip():
-                return text.strip()
-        except Exception:
-            pass
-
-        raise ValueError("No se pudo extraer texto del PDF escaneado")
+        raise ValueError("No se pudo extraer texto del PDF con Vision AI")
 
     @staticmethod
     def _extract_txt(file_path: str) -> str:
