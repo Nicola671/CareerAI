@@ -32,7 +32,7 @@ pinned: false
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white" alt="Python">
   <img src="https://img.shields.io/badge/FastAPI-0.115+-009688?logo=fastapi&logoColor=white" alt="FastAPI">
-  <img src="https://img.shields.io/badge/Groq-Llama_3.3_70B-F97316?logo=meta&logoColor=white" alt="Groq">
+  <img src="https://img.shields.io/badge/Groq-Llama_3_Family-F97316?logo=meta&logoColor=white" alt="Groq">
   <img src="https://img.shields.io/badge/RAG-Hybrid_Search-8B5CF6" alt="RAG">
   <img src="https://img.shields.io/badge/ChromaDB-Vector_Store-7C3AED" alt="ChromaDB">
   <img src="https://img.shields.io/badge/Docker-Deployed-2496ED?logo=docker&logoColor=white" alt="Docker">
