@@ -9,7 +9,7 @@ const API_BASE = window.location.origin; // Same origin (served by FastAPI)
 // ===== STATE =====
 const state = {
     sidebarOpen: true,
-    currentModel: 'llama-3.3-70b-versatile',
+    currentModel: 'openai/gpt-oss-120b',
     currentModelDisplay: 'CareerAI Pro',
     messages: [],
     conversations: JSON.parse(localStorage.getItem('careerai_conversations') || '[]'),
@@ -149,6 +149,8 @@ async function checkApiStatus() {
 
         // Update model display name
         const modelNames = {
+            'openai/gpt-oss-120b': 'CareerAI Pro',
+            'openai/gpt-oss-20b': 'CareerAI Flash',
             'llama-3.3-70b-versatile': 'CareerAI Pro',
             'llama-3.1-8b-instant': 'CareerAI Flash',
         };
@@ -1264,8 +1266,9 @@ function renderMessages() {
         </div>
     `;
         } else {
-            const modelIcon = state.currentModel === 'llama-3.1-8b-instant' ? '/static/icon-flash.png' : 'https://i.postimg.cc/tJ32Jnph/image.png';
-            const modelLabel = state.currentModel === 'llama-3.1-8b-instant' ? 'CareerAI Flash' : 'CareerAI Pro';
+            const isFlash = state.currentModel === 'openai/gpt-oss-20b' || state.currentModel === 'llama-3.1-8b-instant';
+            const modelIcon = isFlash ? '/static/icon-flash.png' : 'https://i.postimg.cc/tJ32Jnph/image.png';
+            const modelLabel = isFlash ? 'CareerAI Flash' : 'CareerAI Pro';
             return `
         <div class="message ai" data-index="${i}">
             <div class="message-inner">
@@ -1312,8 +1315,9 @@ function showTypingIndicator() {
     const indicator = document.createElement('div');
     indicator.id = 'typingIndicator';
     indicator.className = 'message ai';
-    const modelIcon = state.currentModel === 'llama-3.1-8b-instant' ? '/static/icon-flash.png' : 'https://i.postimg.cc/tJ32Jnph/image.png';
-    const modelLabel = state.currentModel === 'llama-3.1-8b-instant' ? 'CareerAI Flash' : 'CareerAI Pro';
+    const isFlash = state.currentModel === 'openai/gpt-oss-20b' || state.currentModel === 'llama-3.1-8b-instant';
+    const modelIcon = isFlash ? '/static/icon-flash.png' : 'https://i.postimg.cc/tJ32Jnph/image.png';
+    const modelLabel = isFlash ? 'CareerAI Flash' : 'CareerAI Pro';
     indicator.innerHTML = `
         <div class="message-inner">
             <div class="message-avatar ai" style="background:transparent; border:none; padding:0;">

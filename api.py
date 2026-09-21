@@ -63,7 +63,7 @@ class AppState:
         self.rag_engine: Optional[RAGEngine] = None
         self.assistant: Optional[CareerAssistant] = None
         self.api_key: str = ""
-        self.model: str = "llama-3.3-70b-versatile"
+        self.model: str = "openai/gpt-oss-120b"
         self.api_configured: bool = False
         self.embedding_model: str = "bge-m3"
         self.enable_reranking: bool = True
@@ -181,7 +181,7 @@ class ChatRequest(BaseModel):
 
 class ConfigRequest(BaseModel):
     api_key: str
-    model: str = "llama-3.3-70b-versatile"
+    model: str = "openai/gpt-oss-120b"
 
 
 class RAGConfigRequest(BaseModel):
@@ -374,8 +374,8 @@ async def configure_rag(config: RAGConfigRequest):
 async def list_models():
     """List available LLM models."""
     models = {
-        "llama-3.3-70b-versatile": {"name": "CareerAI Pro", "description": "Recomendado · Máxima calidad"},
-        "llama-3.1-8b-instant": {"name": "CareerAI Flash", "description": "Ultra rápido · Respuestas al instante"},
+        "openai/gpt-oss-120b": {"name": "CareerAI Pro", "description": "Recomendado · Máxima calidad (120B)"},
+        "openai/gpt-oss-20b": {"name": "CareerAI Flash", "description": "Ultra rápido · Respuestas al instante (20B)"},
     }
     return {"models": models, "current": state.model}
 
