@@ -60,7 +60,7 @@ class DocumentProcessor:
             # Call Groq Vision API
             client = Groq(api_key=groq_api_key)
             response = client.chat.completions.create(
-                model="qwen/qwen3.6-27b",
+                model="qwen/qwen3.8-27b",
                 messages=[
                     {
                         "role": "user",
@@ -220,8 +220,10 @@ class DocumentProcessor:
         logger = logging.getLogger("careerai.document")
 
         VISION_MODELS = [
-            "qwen/qwen3.6-27b",
+            "qwen/qwen3.8-27b",
         ]
+
+        last_error = None
 
         # Step 1: Try converting PDF pages to images with PyMuPDF
         try:
@@ -276,6 +278,7 @@ class DocumentProcessor:
                             page_extracted = True
                             break  # Success with this model
                     except Exception as e:
+                        last_error = e
                         logger.warning(f"Vision model {model} failed for page {page_num+1}: {e}")
                         continue
 
@@ -289,9 +292,13 @@ class DocumentProcessor:
 
         except ImportError:
             logger.warning("PyMuPDF not installed, skipping page-to-image conversion")
+            raise ValueError("PyMuPDF no está instalado para renderizar PDF")
         except Exception as e:
             logger.error(f"PyMuPDF conversion error: {e}")
+            raise ValueError(f"Error convirtiendo PDF a imagen: {e}")
 
+        if last_error:
+            raise ValueError(f"No se pudo extraer texto con Vision AI: {last_error}")
         raise ValueError("No se pudo extraer texto del PDF con Vision AI")
 
     @staticmethod
