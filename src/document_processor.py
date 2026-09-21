@@ -59,9 +59,21 @@ class DocumentProcessor:
 
             # Call Groq Vision API
             client = Groq(api_key=groq_api_key)
-            response = client.chat.completions.create(
-                model="qwen/qwen3.8-27b",
-                messages=[
+            
+            VISION_MODELS = [
+                "llama-3.2-11b-vision-preview",
+                "llama-3.2-90b-vision-preview",
+                "qwen/qwen3.8-27b"
+            ]
+            
+            last_error = None
+            text = None
+            
+            for model in VISION_MODELS:
+                try:
+                    response = client.chat.completions.create(
+                        model=model,
+                        messages=[
                     {
                         "role": "user",
                         "content": [
@@ -88,11 +100,17 @@ class DocumentProcessor:
                 temperature=0.1,
             )
 
-            text = response.choices[0].message.content
-            if text and text.strip():
-                return text.strip()
+                    text = response.choices[0].message.content
+                    if text and text.strip():
+                        return text.strip()
+                except Exception as e:
+                    last_error = e
+                    continue
+            
+            if last_error:
+                raise ValueError(f"Model error: {last_error}")
             else:
-                raise ValueError("No se pudo extraer texto de la imagen")
+                raise ValueError("No se pudo extraer texto de la imagen (respuesta vacía)")
 
         except ImportError:
             raise ValueError("Instala el paquete 'groq': pip install groq")
@@ -220,6 +238,8 @@ class DocumentProcessor:
         logger = logging.getLogger("careerai.document")
 
         VISION_MODELS = [
+            "llama-3.2-11b-vision-preview",
+            "llama-3.2-90b-vision-preview",
             "qwen/qwen3.8-27b",
         ]
 
